@@ -1,0 +1,490 @@
+﻿@using WeblogWebApp.Entities.Post.Enum
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using WeblogWebApp.Utilities.Enum
+@model WeblogWebApp.Models.Post.AddEditViewModel
+@{
+    ViewBag.Title = "ایجاد پست";
+    Layout = "~/Views/Panel/_PanelLayout.cshtml";
+}
+
+@section Styles {
+    <link href="~/plugins/persianDateTimePicker/persian-datepicker.min.css" rel="stylesheet" />
+    <link href="~/Plugins/select2/select2.min.css" rel="stylesheet" />
+    <link href="~/Plugins/sweetalert/sweetalert2.min.css" rel="stylesheet" />
+
+}
+
+<style>
+    .select2-selection {
+        min-height: 38px;
+    }
+
+    .select2-selection__rendered {
+        padding-top: 5px !important;
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__arrow {
+        height: 38px
+    }
+
+    .select2-container--default .select2-selection--single {
+        background-color: #fff;
+        border: 1px solid #E4E6EF;
+        border-radius: 4px;
+    }
+
+    .select2-container--default .select2-selection--multiple {
+        border: solid #E4E6EF 1px !important;
+        outline: 0;
+        height: 38px
+    }
+    .image-input .image-input-wrapper {
+        width: 100%;
+        padding-top: 56.25%;
+    }
+</style>
+
+<div class="col-lg-12 mx-auto mb-10 card card-body">
+
+    @using (Html.BeginForm("Edit", "Post", FormMethod.Post, new { enctype = "multipart/form-data", id = "PostSubmitForm" }))
+    {
+
+        <div class="row">
+
+            <div class="col-md-12">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="col-md-8">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label" })
+                        <span class="text-danger"> *</span>
+                    </div>
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control", @id = "postTitle", @placeholder = "عنوان پست را اینجا وارد کنید" } })
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.Slug, htmlAttributes: new { @class = "" })
+                        <span class="text-danger"> *</span>
+                    </div>
+
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => model.Slug, new { htmlAttributes = new { @class = "form-control", @id = "slug", @name = "Slug", @disabled = "true" } })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.Lead, htmlAttributes: new { @class = "control-label" })
+                        <span class="text-danger"> *</span>
+                    </div>
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => model.Lead, new { htmlAttributes = new { @class = "form-control", @id = "postLead", @placeholder = "تیتر پست را اینجا وارد کنید" } })
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.EnTitle, htmlAttributes: new { @class = "control-label" })
+                        <span class="text-danger"> *</span>
+                    </div>
+                    <div class="col-md-12">
+                        @Html.EditorFor(model => model.EnTitle, new { htmlAttributes = new { @class = "form-control", @id = "enTitle", @placeholder = "عنوان انگلیسی پست را وارد کنید" } })
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.Excerpt, htmlAttributes: new { @class = "control-label" })
+                        <span class="text-danger"> *</span>
+                    </div>
+
+                    <div class="col-md-12">
+                        @Html.TextAreaFor(model => model.Excerpt, new { @class = "form-control", @id = "excerpt", @name = "Excerpt", @rows = "6", @style = "resize: none", @placeholder = "چکیده پست را وارد کنید" })
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.Body, htmlAttributes: new { @class = "control-label" })
+                        <span class="text-danger"> *</span>
+                    </div>
+
+                    <div class="col-md-12">
+                        <textarea id="body" name="Body" rows="12" style="resize: none">@Html.Raw(Model.Body)</textarea>
+                    </div>
+                    <br />
+                    <br />
+                </div>
+
+
+
+            </div>
+
+            <div class="col-md-4">
+
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.Categories, htmlAttributes: new { @class = "control-label" })
+
+                        <select id="Categories" name="CatId" class="w-100">
+                            @foreach (var category in Model.Categories)
+                            {
+                                <option selected="@(category.Id == Model.CatId)" value="@category.Id">@category.Title</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <label class="control-label" for="Locations"> جایگاه</label>
+                        <select id="Locations" name="LocationId" class="w-100">
+                            @{
+                                var dic = new Dictionary<int, string>();
+                                foreach (PostLocationType item in Enum.GetValues(typeof(PostLocationType)))
+                                {
+                                    dic.Add((int)item, item.GetDisplayName());
+                                }
+                                foreach (var item in dic.OrderBy(key => key.Key))
+                                {
+                                    <option selected="@(Model.LocationId == item.Key)" value="@(item.Key)">@item.Value</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-12">
+
+                        @Html.LabelFor(model => model.Tags, htmlAttributes: new { @class = "control-label " })
+                        @Html.ListBoxFor(m => m.TagIds, new MultiSelectList(Model.Tags, "Id", "Title", Model.TagIds), new { @id = "Tags", @name = "TagIds", @class = "w-100", multiple = "multiple" })
+
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.LabelFor(model => model.Authors, htmlAttributes: new { @class = "control-label mr-4" })
+                        <select id="Authors" name="AuthorId" class="w-100">
+                            @foreach (var author in Model.Authors)
+                            {
+                                <option selected="@(author.Id == Model.AuthorId)" value="@author.Id" >@author.UserName</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-12 d-flex">
+                        <div class="checkbox-list">
+                            <label  class="checkbox checkbox-primary">
+                                @Html.CheckBoxFor(model => model.Visible, new { @class = "form-check", @id = "visible", @name = "Visible" })
+                                <span></span>@Html.DisplayNameFor(m=>m.Visible)
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <hr />
+                <div class="text-center ">
+                    <label>  فیلد های سئو</label>
+                </div>
+
+                <br />
+
+
+            </div>
+
+        </div>
+
+    
+        <div class="col-12 col-lg-10  mx-auto">
+            <div class="form-group row">
+                <div class="col-lg-7 col-xl-7 d-flex flex-column">
+                    <div>
+                        @Html.LabelFor(model => model.CoverImage, htmlAttributes: new { @class = "formLabel mb-5" })
+                        <span class="text-danger"> *</span>
+                    </div>
+
+                    <div class="image-input image-input-outline image-input-changed" style="background-image: url('@Model.Cover')">
+                        <div class="image-input-wrapper" id="imgPreviewCover" style="background-image: url('@Model.Cover')"></div>
+                        <label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="change" data-toggle="tooltip" title="" data-original-title="تغییر پوستر">
+                            <i class="fa fa-pen icon-sm text-muted"></i>
+                            <input type="file" accept=".png, .jpg, .jpeg" id="imageCover" name="CoverImage" />
+                        </label>
+                    </div>
+                    <input type="hidden">
+                    <span class="font-weight-bolder form-text text-success mt-2">پسوندهای مجاز: png, jpg, jpeg.</span>
+                    <div class="mt-6">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.CoverAlt, htmlAttributes: new { @class = "control-label" })
+                            <span class="text-danger"> *</span>
+                        </div>
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.CoverAlt, new { htmlAttributes = new { @class = "form-control", @id = "coverAlt", @placeholder = "نام کاور تصویر  را اینجا وارد کنید" } })
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-lg-5 col-xl-5 d-flex flex-column mt-5 mt-md-0">
+                    <div>
+                        @Html.LabelFor(model => model.ThunmnailImage, htmlAttributes: new { @class = "formLabel mb-5" })
+                        <span class="text-danger"> *</span>
+                    </div>
+
+                    <div class="image-input image-input-outline" style="background-image: url('@Model.Thunmnail')">
+                        <div class="image-input-wrapper" id="imgPreviewThumbnail" style="background-image: url('@Model.Thunmnail')"></div>
+                        <label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="change" data-toggle="tooltip" title="" data-original-title="تغییر پوستر">
+                            <i class="fa fa-pen icon-sm text-muted"></i>
+                            <input type="file" accept=".png, .jpg, .jpeg" id="imageThumbnail" name="ThunmnailImage" />
+                        </label>
+                    </div>
+                    <input type="hidden" id="EndPoster">
+                    <span class="font-weight-bolder form-text text-success mt-2">پسوندهای مجاز: png, jpg, jpeg.</span>
+                    <div class="mt-6">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.ThunmnailAlt, htmlAttributes: new { @class = "control-label" })
+                            <span class="text-danger"> *</span>
+                        </div>
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.ThunmnailAlt, new { htmlAttributes = new { @class = "form-control", @id = "thunmnailAlt", @placeholder = "نام تصویر بند انگشتی را اینجا وارد کنید" } })
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <br />
+        <br />
+        <div class="form-group">
+            <div class="col-md-12">
+                <input id="submit-post" type="submit" value="ثبت" class="btn btn-success w-100" />
+                <input id="Id" name="Id" type="hidden" value="@Model.Id" />
+
+            </div>
+        </div>
+
+    }
+
+</div>
+
+
+
+
+
+
+@section scripts {
+    <!--begin::Page Scripts(used by this page)-->
+
+    <script src="~/plugins/ckeditor/ckeditor.js"></script>
+    <script src="~/plugins/ckeditor/config.js"></script>
+    <script src="~/plugins/persianDateTimePicker/jalaali.js"></script>
+    <script src="~/plugins/persianDateTimePicker/persian-date.min.js"></script>
+    <script src="~/plugins/persianDateTimePicker/persian-datepicker.min.js"></script>
+    <script src="~/Plugins/select2/select2.min.js"></script>
+    <script src="~/Plugins/sweetalert/sweetalert2.all.min.js"></script>
+
+    <!--تنظیمات ckeditor-->
+    <script>
+        CKEDITOR.replace("Body");
+    </script>
+
+
+
+    <!--تنظیمات select2-->
+    <script>
+        $('#Categories, #Locations,#Tags, #Authors, #Products').select2({
+            dir: "rtl",
+            width:"100%"
+        });
+    </script>
+    <!-- پیش نمایش تصویر -->
+    <script>
+        function readURL(input, isCover) {
+
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    if (isCover) {
+                        $('#imgPreviewCover').css('background-image', `url('${e.target.result}')`);
+
+                    } else {
+                        $('#imgPreviewThumbnail').css('background-image', `url('${e.target.result}')`);
+
+                    }
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#imageThumbnail").change(function () {
+            readURL(this, false);
+        });
+        $("#imageCover").change(function () {
+            readURL(this, true);
+        });
+    </script>
+
+    <script>
+        var isPersianText = new RegExp("[\u0600-\u06FF]");
+
+        var isEnglishText = /^[A-Za-z0-9 _-]+$/;
+    </script>
+
+    <!-- بررسی لحظه ای فیلد ها -->
+
+    <script>
+        $("#postTitle").keyup(function (e) {
+            e.preventDefault();
+            if (!isPersianText.test($(this).val()) && !isEmptyOrSpaces($(this).val())) {
+                alert("عنوان پست  باید فارسی باشد");
+
+            }
+        });
+        $("#slug").keyup(function (e) {
+            e.preventDefault();
+            if (!isEnglishText.test($(this).val()) && !isEmptyOrSpaces($(this).val())) {
+                alert("نامک پست  باید حروف انگلیسی باشد");
+            }
+        });
+        $("#enTitle").keyup(function (e) {
+            e.preventDefault();
+            if (!isEnglishText.test($(this).val()) && !isEmptyOrSpaces($(this).val())) {
+                alert("عنوان انگلیسی پست  باید حروف انگلیسی باشد");
+            }
+        });
+    </script>
+
+    <!-- ثبت اطلاعات فرم -->
+    <script>
+        $('#submit-post').click(function(e) {
+
+            e.preventDefault();
+            const title = $("#postTitle").val();
+
+            const slug = $("#slug").val();
+
+            const excerpt = $("#excerpt").val();
+
+            const thunmnailAlt = $("#thunmnailAlt").val();
+
+            const coverAlt = $("#coverAlt").val();
+
+            const thumbImage = document.getElementById("imageThumbnail");
+
+            const coverImage = document.getElementById("imageCover");
+
+
+            if (isEmptyOrSpaces(title)) {
+                ErrorHandler("عنوان پست  باید وارد شود");
+            }
+
+            if (isEmptyOrSpaces(excerpt)) {
+                ErrorHandler("چکیده پست  باید وارد شود");
+            }
+
+            if (!isPersianText.test(title) && !isEmptyOrSpaces(title)) {
+                ErrorHandler("عنوان پست  باید فارسی باشد");
+            }
+
+            if (coverImage.files.length <= 0) {
+                ErrorHandler("وارد کردن تصویر کاور پست الزامیست");
+            }
+            if (thumbImage.files.length <= 0) {
+                ErrorHandler("وارد کردن تصویر بند انگشتی پست الزامیست");
+
+            }
+
+            if (isEmptyOrSpaces(thunmnailAlt)) {
+                ErrorHandler("نام تصویر بندانگشتی پست  باید وارد شود");
+            }
+            if (isEmptyOrSpaces(coverAlt)) {
+                ErrorHandler("نام تصویر کاور پست  باید وارد شود");
+            }
+
+
+
+            const form = document.getElementById("PostSubmitForm");
+
+            window.CKEDITOR.instances["body"].updateElement();
+
+            const body = window.CKEDITOR.instances["body"].getData();
+            const wordCount = countWords(body);
+
+            const postData = new FormData(form);
+            postData.append("Slug", slug);
+            postData.append("Body", body);
+            postData.append("Duration", wordCount);
+
+            $.ajax({
+                url: $(this).data('url'),
+                contentType: false,
+                processData: false,
+                type: 'POST',
+                data: postData,
+                success: function(result) {
+
+                    if (result.isSuccess) {
+                        swal.fire('موفق!',
+                            result.message,
+                            'success').then(function(isConfirm) {
+                            window.location.href = '@Url.Action("List", "Post")';
+                        });
+                    } else {
+                        swal.fire('هشدار!',
+                            result.message,
+                            'warning');
+                    }
+                }
+            });
+        });
+    </script>
+
+    <script>
+        $("#postTitle").keyup(function () {
+            var str = $(this).val();
+            str = str.replace(/\s+/g, ' ').trim();
+            const spaced = str.replaceAll(' ', '-');
+            $("#slug").val(spaced);
+
+        });
+
+        function countWords(str) {
+            const arr = str.split(' ');
+
+            return arr.filter(word => word !== '').length;
+        }
+
+    </script>
+
+    <script>
+        var modals = [];
+
+        // تابع بررسی خالی یا اسپیس بدون حرف بودن فیلد ها
+        function isEmptyOrSpaces(str) {
+            return str === null || str.match(/^ *$/) !== null;
+        }
+
+        // نمایش ارور های فیلد ها
+        function ErrorHandler(message) {
+
+            modals.push({ title: "خطا!", text: message, icon: "error" });
+
+        }
+
+    </script>
+}

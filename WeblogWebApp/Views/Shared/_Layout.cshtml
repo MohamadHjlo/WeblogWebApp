@@ -1,0 +1,101 @@
+﻿
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewBag.Title | وبلاگ  </title>
+    <meta name="description" content="@ViewBag.CustomDescription">
+    <meta name="keywords" content="@ViewBag.keywords">
+    <meta property="og:locale" content="fa_IR" />
+    @if (ViewBag.CustomContent != null)
+    {
+        <meta property="og:type" content="@ViewBag.CustomContent" />
+    }
+    <meta property="og:title" content=" @ViewBag.Title |  وبلاگ" />
+    <meta property="og:description" content="@ViewBag.CustomDescription" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewBag.Title - WeblogWebApp</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    @await RenderSectionAsync("styles", required: false)
+    <link rel="stylesheet" href="~/css/reset.css" />
+    <link rel="stylesheet" href="~/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/owl.carousel.min.css" />
+    <link rel="stylesheet" href="~/css/owl.theme.css" />
+    <link rel="stylesheet" href="~/css/owl.transitions.css" />
+    <link rel="stylesheet" href="~/css/select2.min.css" />
+    <link rel="stylesheet" href="~/css/style.css" />
+    <link rel="stylesheet" href="~/css/responsive.css" />
+
+</head>
+<body>
+
+    <header class="bg-dark">
+        <nav class="navbar navbar-expand-lg navbar-dark">
+            <a class="navbar-brand" href="/"><img src="Panel/media/logos/logo-letter-2.png" width="80">وبلاگ</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <span class="fa fa-android"> </span>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-lg-auto mr-lg-5 mr-xs-auto">
+                    <li class="nav-item pr-3">
+                        <a class="nav-link d-flex" asp-controller="Post" asp-action="List">
+                            <span class="nav-link-title"><span class="fa fa-android"> پنل</span></span>
+                        </a>
+                    </li>
+
+                </ul>
+
+                <div class="profile row" style="margin-left:18px">
+                    <div class="col-xs-2 text-left">
+
+                        <img src="/Panel/media/users/blank.png" class="circle profile-photo d-inline-flex">
+
+
+                    </div>
+
+                    <div class="profile-name pr-2 col-xs-10 d-flex align-items-center" style="padding: 0;">
+                    </div>
+                </div>
+
+            </div>
+        </nav>
+    </header>
+
+    @RenderBody()
+
+
+
+    <div class="container px-0">
+        <div class="main_bottom_arc  text-center d-none d-lg-block">
+        </div>
+        <footer class="bg-dark row">test</footer>
+    </div>
+
+
+    <!-- jQuery first, then Popper.js, then Bootstrap JS, then optional js -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <script src="~/js/jQuery.min.js"></script>
+    <script src="~/js/popper.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/js/owl.carousel.min.js"></script>
+    <script src="~/js/html5shiv.js"></script>
+    <script src="~/js/modernizr.js"></script>
+    <script src="~/Plugins/select2/select2.min.js"></script>
+
+    <script src="~/js/custom.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+
+
+
+
+
+</body>
+</html>
+

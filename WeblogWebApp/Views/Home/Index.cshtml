@@ -1,0 +1,330 @@
+﻿@using Microsoft.AspNetCore.Http.Extensions
+@using WeblogWebApp.Utilities.PersianTranslate
+@model WeblogWebApp.Models.Home.BlogViewModel
+
+@{
+    string Domain = Context.Request.Scheme + System.Uri.SchemeDelimiter + Context.Request.Host;
+    var siteUrl = Domain;
+    Layout = "_Layout";
+}
+
+@section styles{
+    <link rel="stylesheet" href="~/blog/style.css">
+    <link rel="stylesheet" href="~/blog/widgets.css">
+    <link rel="stylesheet" href="~/blog/responsive.css">
+}
+
+
+<!-- Start Preloader -->
+<div class="preloader text-center" style="display: none;">
+    <div class="circle"></div>
+</div>
+
+<!-- Start Main content -->
+<main>
+
+    <div class="container bg-dark">
+        <div class="hot-tags pt-30 pb-30 font-small align-self-center">
+            <div class="widget-header-3">
+                <div class="row align-self-center">
+                </div>
+            </div>
+        </div>
+        <div class="loop-grid">
+            <div class="row">
+                <div class="col-lg-8 mb-30">
+                    <div class="carausel-post-1 hover-up border-radius-10 overflow-hidden transition-normal position-relative wow fadeInUp" style="visibility: visible; animation-name: fadeInUp;">
+                        <div class="slide-fade slick-initialized slick-slider">
+                            <div class="slick-list draggable">
+                                <div class="position-relative owl-blog-slider owl-carousel owl-rtl owl-loaded owl-drag" style="opacity: 1; width: 1460px;">
+                                    @if (Model.SliderNews != null)
+                                    {
+                                        foreach (var item in Model.SliderNews)
+                                        {
+                                            <div class="position-relative border-radius-10 post-thumb slick-slide slick-current slick-active" data-slick-index="0" aria-hidden="false" tabindex="0" style="width: 768px; position: relative; left: 0px; top: 0px; z-index: 999; opacity: 1;">
+                                                <div class="thumb-overlay border-radius-10 img-hover-slide position-relative" style="background-image: url(/Media/Post/@item.Media.Image)">
+                                                    <a class="img-link" href="/Home/Single/@item.Id" tabindex="0"></a>
+                                                    <div class="post-content-overlay text-white ml-30 mr-30 pb-30">
+                                                        <div class="entry-meta meta-0 font-small mb-20">
+                                                            <a href="/panel/Blog/CategoryArchive/@item.CatId" tabindex="0"><span class="post-cat text-yellow">@item.Category</span></a>
+                                                        </div>
+                                                        <h3 class="post-title font-weight-900 mb-20">
+                                                            <a class="text-white" href="/Home/Single/@item.Id" tabindex="0">
+                                                                @item.Title
+                                                            </a>
+                                                        </h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <article class="col-lg-4 col-md-6 mb-30 wow fadeInUp" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInUp;">
+
+                    @if (Model.Location1News != null)
+                    {
+                        foreach (var item in Model.Location1News)
+                        {
+                            <div class="post-card-1 border-radius-10 hover-up">
+                                <div class="post-thumb thumb-overlay img-hover-slide position-relative" style="background-image: url(/Media/Post/Thumb/@item.Media.Image)">
+                                    <a class="img-link" href="/Home/Single/@item.Id"></a>
+                                </div>
+                                <div class="post-content p-30">
+                                    <div class="entry-meta meta-0 font-small mb-10">
+                                        <a href="/Home/CategoryArchive/@item.CatId"><span class="post-cat text-yellow">@item.Category</span></a>
+                                    </div>
+                                    <div class="d-flex post-card-content">
+                                        <h5 class="post-title mb-20 font-weight-900">
+                                            <a href="/Home/Single/@item.Id">
+                                                @item.Title
+                                            </a>
+                                        </h5>
+                                        <div class="entry-meta meta-1 float-left font-small" style="color: #00dfff ">
+                                            <span class="post-by has-dot mr-0">@item.Views مشاهده</span>
+                                            <span class="time-reading has-dot">@item.StudyTime دقیقه مطالعه</span>
+                                            <span class="post-on">@item.PersianCreatedAt</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+
+                </article>
+                <article class="col-lg-4 col-md-6 mb-30 wow fadeInUp animated" style="visibility: hidden; animation-name: none;">
+                    @if (Model.Location2News != null)
+                    {
+                        foreach (var item in Model.Location2News)
+                        {
+                            <div class="post-card-1 border-radius-10 hover-up">
+                                <div class="post-thumb thumb-overlay img-hover-slide position-relative" style="background-image: url(/Media/Post/Thumb/@item.Media.Image)">
+                                    <a class="img-link" href="/Home/Single/@item.Id"></a>
+                                   
+                                </div>
+                                <div class="post-content p-30">
+                                    <div class="entry-meta meta-0 font-small mb-10">
+                                        <a href="/Home/CategoryArchive/@item.CatId"><span class="post-cat text-yellow">@item.Category</span></a>
+                                    </div>
+                                    <div class="d-flex post-card-content">
+                                        <h5 class="post-title mb-20 font-weight-900">
+                                            <a href="/Home/Single/@item.Id">
+                                                @item.Title
+                                            </a>
+                                        </h5>
+                                        <div class="entry-meta meta-1 float-left font-small" style="color: #00dfff ">
+                                            <span class="post-by has-dot mr-0">@item.Views مشاهده</span>
+                                            <span class="time-reading has-dot">@item.StudyTime دقیقه مطالعه</span>
+                                            <span class="post-on">@item.PersianCreatedAt</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                </article>
+                <article class="col-lg-4 col-md-6 mb-30 wow fadeInUp animated" data-wow-delay="0.2s" style="visibility: hidden; animation-delay: 0.2s; animation-name: none;">
+                    @if (Model.Location3News != null)
+                    {
+                        foreach (var item in Model.Location3News)
+                        {
+                            <div class="post-card-1 border-radius-10 hover-up">
+                                <div class="post-thumb thumb-overlay img-hover-slide position-relative" style="background-image: url(/Media/Post/Thumb/@item.Media.Image)">
+                                    <a class="img-link" href="/Home/Single/@item.Id"></a>
+                                   
+                                </div>
+                                <div class="post-content p-30">
+                                    <div class="entry-meta meta-0 font-small mb-10">
+                                        <a href="/Home/CategoryArchive/@item.CatId"><span class="post-cat text-yellow">@item.Category</span></a>
+                                    </div>
+                                    <div class="d-flex post-card-content">
+                                        <h5 class="post-title mb-20 font-weight-900">
+                                            <a href="/Home/Single/@item.Id">
+                                                @item.Title
+                                            </a>
+                                        </h5>
+                                        <div class="entry-meta meta-1 float-left font-small" style="color: #00dfff ">
+                                            <span class="post-by has-dot mr-0">@item.Views مشاهده</span>
+                                            <span class="time-reading has-dot">@item.StudyTime دقیقه مطالعه</span>
+                                            <span class="post-on">@item.PersianCreatedAt</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                </article>
+                <article class="col-lg-4 col-md-6 mb-30 wow fadeInUp animated" data-wow-delay="0.4s" style="visibility: hidden; animation-delay: 0.4s; animation-name: none;">
+                    @if (Model.Location4News != null)
+                    {
+                        foreach (var item in Model.Location4News)
+                        {
+                            <div class="post-card-1 border-radius-10 hover-up">
+                                <div class="post-thumb thumb-overlay img-hover-slide position-relative" style="background-image: url(/Media/Post/Thumb/@item.Media.Image)">
+                                    <a class="img-link" href="/Home/Single/@item.Id"></a>
+                                  
+                                </div>
+                                <div class="post-content p-30">
+                                    <div class="entry-meta meta-0 font-small mb-10">
+                                        <a href="/Home/CategoryArchive/@item.CatId"><span class="post-cat text-yellow">@item.Category</span></a>
+                                    </div>
+                                    <div class="d-flex post-card-content">
+                                        <h5 class="post-title mb-20 font-weight-900">
+                                            <a href="/Home/Single/@item.Id">
+                                                @item.Title
+                                            </a>
+                                        </h5>
+                                        <div class="entry-meta meta-1 float-left font-small" style="color: #00dfff ">
+                                            <span class="post-by has-dot mr-0">@item.Views مشاهده</span>
+                                            <span class="time-reading has-dot">@item.StudyTime دقیقه مطالعه</span>
+                                            <span class="post-on">@item.PersianCreatedAt</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                </article>
+            </div>
+        </div>
+    </div>
+    <div class="container bg-dark pt-50 pb-50">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="post-module-2">
+                    <div class="widget-header-1 position-relative mb-30  wow fadeInUp animated" style="visibility: hidden; animation-name: none;">
+                        <h5 class="mt-5 mb-30">اخبار</h5>
+                    </div>
+                    <div class="loop-list loop-list-style-1">
+                        <div class="row">
+                            @if (Model.Location5News != null)
+                            {
+                                foreach (var item in Model.Location5News)
+                                {
+                                    <article class="col-md-6 mb-40 wow fadeInUp  animated" style="visibility: hidden; animation-name: none;">
+                                        <div class="post-card-1 border-radius-10 hover-up">
+                                            <div class="post-thumb thumb-overlay img-hover-slide position-relative" style="background-image: url(/Media/Post/Thumb/@item.Media.Image)">
+                                                <a class="img-link" href="/Home/Single/@item.Id"></a>
+                                            </div>
+                                            <div class="post-content p-30">
+                                                <div class="entry-meta meta-0 font-small mb-10">
+                                                    <a href="/Home/CategoryArchive/@item.CatId"><span class="post-cat text-yellow">@item.Category</span></a>
+                                                </div>
+                                                <div class="d-flex post-card-content">
+                                                    <h5 class="post-title mb-20 font-weight-900">
+                                                        <a href="/Home/Single/@item.Id">
+                                                            @item.Title
+                                                        </a>
+                                                    </h5>
+                                                    <div class="post-excerpt mb-10 font-small">
+                                                        <p>
+                                                            @{
+                                                                var excerpt = item.Excerpt;
+                                                                var finalExcerpt = excerpt.Length > 150 ? excerpt.Substring(0, 150) + "..." : excerpt + "...";
+                                                                <span>@finalExcerpt</span>
+                                                            }
+                                                        </p>
+                                                    </div>
+                                                    <div class="entry-meta meta-1 float-left font-x-small text-uppercase" style="color: #00dfff ">
+                                                        <span class="post-by has-dot mr-0">@item.Views مشاهده</span>
+                                                        <span class="time-reading has-dot">@item.StudyTime دقیقه مطالعه</span>
+                                                        <span class="post-on">@item.PersianCreatedAt</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </article>
+                                }
+                            }
+
+                        </div>
+                    </div>
+                </div>
+                <div id="latestNews">
+                    @await Html.PartialAsync("/Views/Home/_LatestNews.cshtml", Model.LatestNews)
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="widget-area">
+                   
+                    <div class="sidebar-widget widget-latest-posts mb-50 wow fadeInUp animated" style="visibility: hidden; animation-name: none;">
+                        <div class="widget-header-1 position-relative mb-30">
+                            <h5 class="mt-5 mb-30">پربازدیدترین ها</h5>
+                        </div>
+                        <div class="post-block-list post-module-1" id="mostViewsNews">
+                        </div>
+                    </div>
+                  
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<!-- End Main content -->
+
+<div class="dark-mark"></div>
+
+
+@section scripts{
+    <script src="~/blog/vendor/wow.min.js"></script>
+    <script src="~/blog/vendor/jquery.scrollUp.min.js"></script>
+    <script src="~/blog/vendor/jquery.sticky.js"></script>
+    <script src="~/blog/vendor/jquery.theia.sticky.js"></script>
+    <script src="~/blog/main.js"></script>
+
+    <script>
+        function showMoreComment(id) {
+            var dotComment = document.getElementById("dot_comment_" + id);
+            var moreComment = document.getElementById("more_comment_" + id);
+            var btnComment = document.getElementById("btn_comment_" + id);
+            if (dotComment.style.display == "none") {
+                dotComment.style.display = "inline";
+                btnComment.innerHTML = "بیشتر";
+                moreComment.style.display = "none";
+            } else {
+                dotComment.style.display = "none";
+                btnComment.innerHTML = "کمتر";
+                moreComment.style.display = "inline";
+            }
+        }
+
+        $(document).on("click", ".pagination-area .page-item", function (e) {
+            e.preventDefault();
+            var currentPage = $(this).attr("data-page");
+
+            $.ajax({
+                method: "post",
+                data: { currentPage: currentPage },
+                url:'@Url.Action("GetLatestPostsForPartialView","Home")',
+                success: function (data) {
+                    $("#latestNews").empty();
+                    $("#latestNews").html(data);
+                },
+                error: function (error) {
+
+                }
+            });
+        });
+
+        $(document).ready(function () {
+            $.ajax({
+                method: "post",
+                contenttype: false,
+                proccesData: false,
+                url: '@Url.Action("GetMostViewsPost","Home")',
+                success: function (data) {
+                    $("#mostViewsNews").empty();
+                    $("#mostViewsNews").html(data);
+                },
+                error: function (error) {
+
+                }
+            });
+        });
+
+    </script>
+}

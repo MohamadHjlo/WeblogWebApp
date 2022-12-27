@@ -1,0 +1,58 @@
+﻿@import url('IRANSans-Serif.css'); /* لینک فایلی که وظیفه بارگذاری فونت ها را برعهده دارد */
+
+* {
+    font-family: IRANSansnormal, Arial !important;
+}
+.mainContent {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.contentContainer {
+    direction: rtl;
+    margin: 0 35px;
+    padding: 0 30px 39px;
+    position: relative;
+    z-index: 2;
+    box-shadow: 0 0 5px -1px;
+    margin-top: 100px;
+}
+
+.entry-title {
+    position: relative;
+    z-index: 2;
+    background: #8c6bd1;
+    width: auto;
+    top: -3px;
+    box-shadow: 0 0 6px rgba(0,0, 0, .4);
+    -webkit-box-shadow: 0 0 6px rgba(0,0, 0, .4);
+    -moz-box-shadow: 0 0 6px rgba(0,0,0,.4);
+    display: inline-block;
+    padding: 0 15px;
+}
+
+@media only screen and (max-width: 75em) {
+    .entry-title {
+        display: block;
+    }
+}
+
+    .entry-title h1 {
+        color: #fff;
+        font-weight: 500;
+        font-size: 19px !important;
+        position: relative;
+        right: 0;
+        text-align: center;
+        margin: 0;
+        padding: 20px 0;
+        padding-top: 30px;
+    }
+
+
+.entry-title:before {
+    content: url(../images/icon-attachment.png);
+    position: absolute;
+    top: -42px;
+    right: 10px;
+}

@@ -1,0 +1,206 @@
+﻿@model WeblogWebApp.Models.PostTag.AddEditViewModel
+
+@{
+    ViewBag.Title = "ویرایش برچسب";
+    Layout = "~/Views/Panel/_PanelLayout.cshtml";
+
+}
+
+@section styles {
+    <link href="~/plugins/persianDateTimePicker/persian-datepicker.min.css" rel="stylesheet" />
+    <link href="~/Plugins/select2/select2.min.css" rel="stylesheet" />
+    <link href="~/Plugins/sweetalert/sweetalert2.min.css" rel="stylesheet" />
+
+}
+
+<div class="col-lg-10 mx-auto mb-10 card card-body">
+    @using (Html.BeginForm("Edit", "Tag", FormMethod.Post, new { enctype = "multipart/form-data", @id = "tagSubmitForm" }))
+    {
+        <div class="">
+
+            <div class="form-horizontal">
+                <div class="row">
+                    <div class="col-md-12">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label" })
+                            <span class="text-danger"> *</span>
+                            <div class="col-md-12">
+                                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control", @id = "tagTitle", @name = "TagTitle", @placeholder = "عنوان برچسب را اینجا وارد کنید" } })
+                                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Slug, htmlAttributes: new { @class = "" })
+                                <span class="text-danger"> *</span>
+                                <div class="col-md-12">
+                                    @Html.EditorFor(model => model.Slug, new { htmlAttributes = new { @class = "form-control", @id = "slug", @placeholder = "نامک برچسب را اینجا وارد کنید" } })
+                                    @Html.ValidationMessageFor(model => model.Slug, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Describtion, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-12">
+                        @Html.TextAreaFor(model => model.Describtion, new { @class = "form-control", @id = "describtion", @name = "Describtion", @rows = "9", @style = "resize: none", @placeholder = "اوضیحات برچسب را اینجا وارد کنید" })
+                        @Html.ValidationMessageFor(model => model.Describtion, "", new { @class = "text-danger" })
+                    </div>
+                    <br />
+                    <br />
+                </div>
+
+
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <input id="submit-tag" type="submit" value="ثبت" class="btn btn-success w-100" />
+                        <input id="tagId" type="hidden" value="@Model.Id" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    }
+
+
+</div>
+
+
+
+    <br />
+    <br />
+    <br />
+
+
+    @section scripts {
+        <!--begin::Page Scripts(used by this page)-->
+
+        <script src="~/Plugins/select2/select2.min.js"></script>
+        <script src="~/Plugins/sweetalert/sweetalert2.all.min.js"></script>
+
+
+        <!--تنظیمات select2-->
+        <script>
+            $('#author').select2({
+                dir: "rtl",
+                width: '130'
+            });
+        </script>
+
+        <script>
+            var isPersianText = new RegExp("[\u0600-\u06FF]");
+
+            var isEnglishText = /^[A-Za-z0-9 _-]+$/;
+        </script>
+
+        <!-- ثبت اطلاعات فرم -->
+        <script>
+        $('#submit-tag').click(function(e) {
+            e.preventDefault();
+
+            const id = $("#tagId").val();
+            const title = $("#tagTitle").val();
+            const slug = $("#slug").val();
+
+
+            const describtion = $("#describtion").val();
+
+
+            if (isEmptyOrSpaces(title)) {
+
+                ErrorHandler("عنوان برچسب  باید وارد شود");
+
+            }
+
+            if (isEmptyOrSpaces(slug)) {
+
+                ErrorHandler("نامک برچسب  باید وارد شود");
+
+            }
+
+
+            if (!isPersianText.test(title) && !isEmptyOrSpaces(title)) {
+                ErrorHandler("عنوان برچسب  باید فارسی باشد");
+            }
+
+            if (!isEnglishText.test(slug) && !isEmptyOrSpaces(slug)) {
+                ErrorHandler("نامک برچسب  باید حروف انگلیسی باشد");
+            }
+            if (modals.length > 0) {
+                swal.queue(modals);
+                modals = [];
+                return;
+            }
+
+            const form = document.getElementById("tagSubmitForm");
+
+            const postData = new FormData(form);
+
+
+            $.ajax({
+                url: $(this).data('url'),
+                contentType: false,
+                processData: false,
+                type: 'POST',
+                data: postData,
+                success: function(result) {
+                    if (result.isSuccess) {
+                        swal.fire('موفق!',
+                            result.message,
+                            'success').then(function(isConfirm) {
+                            window.location.href = '@Url.Action("List","PostTag")';
+                        });
+                    } else {
+                        swal.fire('هشدار!', result.message, 'warning');
+                    }
+                }
+            });
+        });
+        </script>
+        <!-- بررسی لحظه ای فیلد ها -->
+        <script>
+            $("#tagTitle").keyup(function (e) {
+                e.preventDefault();
+                if (!isPersianText.test($(this).val()) && !isEmptyOrSpaces($(this).val())) {
+                    alert("عنوان برچسب  باید فارسی باشد");
+                }
+            });
+            $("#slug").keyup(function (e) {
+                e.preventDefault();
+                if (!isEnglishText.test($(this).val()) && !isEmptyOrSpaces($(this).val())) {
+                    alert("نامک برچسب  باید حروف انگلیسی باشد");
+                }
+            });
+
+        </script>
+
+        <script>
+            var modals = [];
+
+            // تابع بررسی خالی یا اسپیس بدون حرف بودن فیلد ها
+            function isEmptyOrSpaces(str) {
+                return str === null || str.match(/^ *$/) !== null;
+            }
+
+            // نمایش ارور های فیلد ها
+            function ErrorHandler(message) {
+
+                modals.push({ title: "خطا!", text: message, icon: "error" });
+
+            }
+
+        </script>
+    }

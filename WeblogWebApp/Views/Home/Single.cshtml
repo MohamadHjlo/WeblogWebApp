@@ -1,0 +1,109 @@
+﻿@model WeblogWebApp.Models.Home.SinglePostViewModel
+
+@{
+    ViewBag.Title = ViewBag.CustomTitle;
+}
+
+@section styles{
+    <link rel="stylesheet" href="~/blog/style.css">
+    <link rel="stylesheet" href="~/blog/widgets.css">
+    <link rel="stylesheet" href="~/blog/responsive.css">
+}
+
+
+<div class="scroll-progress" style="background-color: #f9b233"></div>
+
+<!-- Start Main content -->
+<div class="bg-dark container single-content">
+
+    <div class="entry-header entry-header-style-1 mb-50 pt-50">
+        <h1 class="entry-title mb-50 font-weight-900">
+            @Model.Title
+        </h1>
+    </div>
+    <!--end single header-->
+    <figure class="image mb-30 m-auto text-center border-radius-10">
+        <img class="border-radius-10" style="max-width:85%" src="~/Media/Post/@Model.PostMedia.Image" alt="@Model.PostMedia.ImageAlt" />
+    </figure>
+    <!--figure-->
+    <article class="entry-wraper mb-0">
+        <div class="excerpt mb-30">
+        </div>
+        <div id="entry-main-content" class="entry-main-content dropcap wow fadeIn animated">
+            @*@Html.Raw(@Model.Body)*@
+            @*@Model.Body*@
+        </div>
+        <div class="entry-bottom mt-50 mb-30 wow fadeIn animated">
+            <div class="postTags  widget_tagcloud">
+                <span class="">برچسب ها: </span>
+                @foreach (var item in Model.Tags)
+                {
+                    <a class="border-0 tag-cloud-link" style="background: #f9b233; color: #000 !important" href="/main/Blog/TagArchive/@item.Key">@item.Value</a>
+                }
+            </div>
+        </div>
+        <!--author box-->
+        <div class="mb-40"></div>
+        <!--related posts-->
+        <div class="pb-10 related-posts">
+
+        </div>
+        <!--More posts-->
+        <!--Comments-->
+        <div class="comments-area">
+            <div class="widget-header-2 position-relative mb-30">
+                <h5 class="mt-5 mb-30">نظرات شما</h5>
+            </div>
+
+
+        </div>
+        <!--comment form-->
+        <div class="comment-form wow fadeIn animated pb-20">
+            <div class="widget-header-2 position-relative">
+                <h5 class="mt-5 mb-30">ارسال نظر</h5>
+            </div>
+            
+        </div>
+    </article>
+</div>
+<!--container-->
+
+<input type="hidden" id="catId" value="@Model.CatId" />
+<!-- End Main content -->
+
+<div class="dark-mark"></div>
+
+
+@section scripts{
+    <script src="~/Content/Main/js/blog/vendor/wow.min.js"></script>
+    <script src="~/Content/Main/js/blog/vendor/jquery.scrollUp.min.js"></script>
+    <script src="~/Content/Main/js/blog/vendor/jquery.sticky.js"></script>
+    <script src="~/Content/Main/js/blog/vendor/jquery.theia.sticky.js"></script>
+    <script src="~/Content/Main/js/blog/main.js"></script>
+
+    <script>
+
+        $(document).ready(function () {
+            var catId = $("#catId").val();
+            $.ajax({
+                method: "post",
+                url: "/blog/GetRelatedPosts",
+                data: {catId : catId},
+                success: function (data) {
+                    $(".related-posts").empty();
+                    $(".related-posts").html(data);
+                },
+                error: function (error) {
+
+                }
+            });
+        });
+
+
+        jQuery(document).ready(function () {
+           $("#entry-main-content").html($('<textarea/>').html(unescape('@Html.Raw(Model.Body.Replace("\r\n", string.Empty))')).text())
+        })
+
+    </script>
+
+}

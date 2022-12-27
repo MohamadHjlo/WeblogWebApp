@@ -1,0 +1,578 @@
+﻿@using System.Security.Claims
+<!DOCTYPE html>
+
+<html direction="rtl" dir="rtl" style="direction: rtl">
+<!--begin::Head-->
+<head>
+    <base href="">
+    <meta charset="utf-8" />
+    <title>وبلاگ  | @ViewBag.Title </title>
+    <meta name="description" content="Updates and statistics" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <!--begin::Page Vendors Styles(used by this page)-->
+    <!--<link href="~/Panel/plugins/custom/fullcalendar/fullcalendar.bundle.rtl.css?v=7.0.6" rel="stylesheet" type="text/css" />-->
+    <!--end::Page Vendors Styles-->
+    <!--begin::Global تم Styles(used by all pages)-->
+    <link href="~/Panel/plugins/global/plugins.bundle.rtl.css?v=7.0.6" rel="stylesheet" type="text/css" />
+    <link href="~/Panel/plugins/custom/prismjs/prismjs.bundle.rtl.css?v=7.0.6" rel="stylesheet" type="text/css" />
+    <link href="~/Panel/css/style.bundle.rtl.css?v=7.0.6" rel="stylesheet" type="text/css" />
+    <!--end::Global تم Styles-->
+    <!--begin::چیدمان تم ها(used by all pages)-->
+    <!--<link href="~/Panel/css/themes/layout/header/base/light.rtl.css?v=7.0.6" rel="stylesheet" type="text/css" />-->
+    <!--<link href="~/Panel/css/themes/layout/header/menu/light.rtl.css?v=7.0.6" rel="stylesheet" type="text/css" />-->
+    <link href="~/Panel/css/themes/layout/brand/dark.rtl.css?v=7.0.6" rel="stylesheet" type="text/css" />
+    <link href="~/Panel/css/themes/layout/aside/dark.rtl.css?v=7.0.6" rel="stylesheet" type="text/css" />
+    @RenderSection("styles", required: false)
+    <!--end::چیدمان تم ها-->
+
+    <style>
+        .follow_slider {
+            color: #7b7a82;
+            font-size: 14px;
+            transition: left 0.2s ease;
+        }
+
+        #kt_quick_followers h3,
+        #kt_quick_following h3 {
+            background: #18b1aa;
+            padding: 5px 15px;
+            border-radius: 10px;
+            color: #fff;
+        }
+
+        .follow_slider ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .follow_slider li {
+            height: 60px;
+            padding: 5px;
+        }
+
+            .follow_slider li:last-child {
+                border-bottom: 0;
+            }
+
+            .follow_slider li .slider_item,
+            .follow_slider li .slider_left {
+                display: flex;
+            }
+
+            .follow_slider li .slider_item {
+                justify-content: space-between;
+                align-items: center;
+                height: 100%;
+            }
+
+        .follow_slider img {
+            width: 35px;
+            border-radius: 50%;
+            margin-left: 10px;
+        }
+
+        .follow_slider .item {
+            text-align: left;
+            font-size: 12px;
+        }
+
+        .follow_slider .item_email {
+            font-weight: 300;
+            margin-top: 5px;
+        }
+
+        .follow_slider .btn {
+            padding: 5px 10px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 12px;
+            text-align: center;
+        }
+
+            .follow_slider .btn.btn_follower {
+                background: #6a60c3;
+                color: #fff;
+            }
+
+                .follow_slider .btn.btn_follower:hover {
+                    background: #8178d1;
+                }
+
+            .follow_slider .btn.btn_follow {
+                border: 1px solid #7b7a82;
+            }
+
+                .follow_slider .btn.btn_follow:hover {
+                    color: #fff;
+                    background: #7b7a82;
+                }
+
+        .follow_slider.active {
+            left: 100%;
+        }
+
+        .settings_btn.active {
+            background: #6a60c3;
+        }
+
+        .settings_btn i {
+            transition: transform 0.2s ease;
+        }
+
+        .settings_btn.active i {
+            transform: rotate(360deg);
+        }
+    </style>
+</head>
+<!--end::Head-->
+<!--begin::Body-->
+<body id="kt_body" class="header-fixed header-mobile-fixed subheader-enabled subheader-fixed aside-enabled aside-fixed aside-minimize-hoverable page-loading">
+    <!--begin::Main-->
+    <!--begin::Header Mobile-->
+    <div id="kt_header_mobile" class="header-mobile align-items-center  header-mobile-fixed ">
+        <!--begin::Logo-->
+        <a href="/" class="align-items-center brand-logo d-flex justify-content-center">
+            <img src="~/Panel/media/logos/logo-letter-2.png" alt="Alternate Text" width="45px" />
+            <span style="color:#ffbc42;padding-right: 5px;" id="logoText">وبلاگ</span>
+        </a>
+        <!--end::Logo-->
+        <!--begin::Toolbar-->
+        <div class="d-flex align-items-center">
+            <!--begin::Aside Mobile Toggle-->
+            <button class="btn p-0 burger-icon burger-icon-left" id="kt_aside_mobile_toggle">
+                <span></span>
+            </button>
+            <!--end::Aside Mobile Toggle-->
+            <!--begin::Topbar Mobile Toggle-->
+            <button class="btn btn-hover-text-primary p-0 ml-2" id="kt_header_mobile_topbar_toggle">
+                <span class="svg-icon svg-icon-xl">
+                    <!--begin::Svg Icon | path:~/Panel/media/svg/icons/عمومی/User.svg-->
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                            <polygon points="0 0 24 0 24 24 0 24" />
+                            <path d="M12,11 C9.790861,11 8,9.209139 8,7 C8,4.790861 9.790861,3 12,3 C14.209139,3 16,4.790861 16,7 C16,9.209139 14.209139,11 12,11 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" />
+                            <path d="M3.00065168,20.1992055 C3.38825852,15.4265159 7.26191235,13 11.9833413,13 C16.7712164,13 20.7048837,15.2931929 20.9979143,20.2 C21.0095879,20.3954741 20.9979143,21 20.2466999,21 C16.541124,21 11.0347247,21 3.72750223,21 C3.47671215,21 2.97953825,20.45918 3.00065168,20.1992055 Z" fill="#000000" fill-rule="nonzero" />
+                        </g>
+                    </svg>
+                    <!--end::Svg Icon-->
+                </span>
+            </button>
+            <!--end::Topbar Mobile Toggle-->
+        </div>
+        <!--end::Toolbar-->
+    </div>
+    <!--end::Header Mobile-->
+    <div class="d-flex flex-column flex-root">
+        <!--begin::Page-->
+        <div class="d-flex flex-row flex-column-fluid page">
+            <!--begin::Aside-->
+            @await Html.PartialAsync("~/Views/Panel/_RightMenu.cshtml")
+            <!--end::Aside-->
+            <!--begin::Wrapper-->
+            <div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
+                <!--begin::Header-->
+                <div id="kt_header" class="header  header-fixed " style="z-index:5; margin-bottom: 10px; background: #1a1a27;">
+                    <!--begin::Container-->
+                    <div class=" container-fluid  d-flex align-items-stretch justify-content-between">
+                        <!--begin::Header Menu Wrapper-->
+                        <div class="header-menu-wrapper header-menu-wrapper-left" id="kt_header_menu_wrapper">
+                            <!--begin::Header Menu-->
+                            <div id="kt_header_menu" class="header-menu header-menu-mobile  header-menu-layout-default ">
+                            </div>
+                            <!--end::Header Menu-->
+                        </div>
+                        <!--end::Header Menu Wrapper-->
+                        <!--begin::Topbar-->
+                        <div class="topbar">
+                           
+                        
+                            <!--end::چت-->
+                            <!--begin::زبان ها-->
+                           
+                            <!--end::زبان ها-->
+                            <!--begin::User-->
+                            <div class="topbar-item">
+                                <div class="btn btn-icon btn-icon-mobile w-auto btn-clean d-flex align-items-center btn-lg px-2" id="kt_quick_user_toggle">
+                                    <span class="text-dark-50 font-weight-bolder font-size-base d-none d-md-inline mr-3">
+                                   @*     @(((ClaimsIdentity) User.Identity).GetSpecificClaim("givenname"))  *@  </span>
+                                    <span class="symbol symbol-lg-35 symbol-25 symbol-light-success">
+                                        <span class="symbol-label font-size-h5 font-weight-bold">
+                                            <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                <!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
+                                                <g id="Stockholm-icons-/-General-/-User" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                    <polygon id="Shape" points="0 0 24 0 24 24 0 24"></polygon>
+                                                    <path d="M12,11 C9.790861,11 8,9.209139 8,7 C8,4.790861 9.790861,3 12,3 C14.209139,3 16,4.790861 16,7 C16,9.209139 14.209139,11 12,11 Z" id="Mask" fill="#1bc5bd" fill-rule="nonzero" opacity="1"></path>
+                                                    <path d="M3.00065168,20.1992055 C3.38825852,15.4265159 7.26191235,13 11.9833413,13 C16.7712164,13 20.7048837,15.2931929 20.9979143,20.2 C21.0095879,20.3954741 20.9979143,21 20.2466999,21 C16.541124,21 11.0347247,21 3.72750223,21 C3.47671215,21 2.97953825,20.45918 3.00065168,20.1992055 Z" id="Mask-Copy" fill="#1bc5bd" fill-rule="nonzero"></path>
+                                                </g>
+                                            </svg>
+                                        </span>
+                                    </span>
+                                </div>
+                            </div>
+                            <!--end::User-->
+                        </div>
+                        <!--end::Topbar-->
+                    </div>
+                    <!--end::Container-->
+                </div>
+                <!--end::Header-->
+                <div class="container">
+                    @RenderBody()
+                </div>
+            </div>
+            <!--end::Wrapper-->
+        </div>
+        <!--end::Page-->
+    </div>
+    <!--end::Main-->
+    <!-- begin::User Panel-->
+    <div id="kt_quick_user" class="offcanvas offcanvas-right p-10">
+        <!--begin::Header-->
+        <div class="offcanvas-header d-flex align-items-center justify-content-between pb-5">
+            <h3 class="font-weight-bold m-0">
+                پروفایل کاربر
+                <small class="text-muted font-size-sm ml-2"></small>
+            </h3>
+            <a href="#" class="btn btn-xs btn-icon btn-light btn-hover-primary" id="kt_quick_user_close">
+                <i class="ki ki-close icon-xs text-muted"></i>
+            </a>
+        </div>
+        <!--end::Header-->
+        <!--begin::Content-->
+        <div class="offcanvas-content pr-5 mr-n5">
+            <!--begin::Header-->
+            <div class="d-flex align-items-center mt-5">
+                <div class="symbol symbol-100 mr-5">
+                    <div class="symbol-label" style="background-image:url('/media/user/blank.png')"></div>
+                    <i class="symbol-badge bg-success"></i>
+                </div>
+                <div class="d-flex flex-column">
+                    <span class="font-weight-bold font-size-h5 text-dark-75 text-hover-primary">
+                @*        @(((ClaimsIdentity)User.Identity).GetSpecificClaim("givenname"))*@
+                    </span>
+                    <div class="navi mt-2">
+                        <span class="navi-item">
+                            <span class="navi-link p-0 pb-2">
+                                <span class="navi-icon mr-1">
+                                    <span class="svg-icon svg-icon-lg svg-icon-primary">
+                                        <!--begin::Svg Icon | path:~/Panel/media/svg/icons/ارتباطات/Mail-notification.svg-->
+                                        <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                            <!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
+                                            <g id="Stockholm-icons-/-Devices-/-Phone" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                <rect id="bound" x="0" y="0" width="24" height="24"></rect>
+                                                <path d="M7.13888889,4 L7.13888889,19 L16.8611111,19 L16.8611111,4 L7.13888889,4 Z M7.83333333,1 L16.1666667,1 C17.5729473,1 18.25,1.98121694 18.25,3.5 L18.25,20.5 C18.25,22.0187831 17.5729473,23 16.1666667,23 L7.83333333,23 C6.42705272,23 5.75,22.0187831 5.75,20.5 L5.75,3.5 C5.75,1.98121694 6.42705272,1 7.83333333,1 Z" id="Combined-Shape" fill="#000000" fill-rule="nonzero"></path>
+                                                <polygon id="Combined-Shape" fill="#000000" opacity="0.3" points="7 4 7 19 17 19 17 4"></polygon>
+                                                <circle id="Oval" fill="#000000" cx="12" cy="21" r="1"></circle>
+                                            </g>
+                                        </svg>
+                                        <!--end::Svg Icon-->
+                                    </span>
+                                </span>
+                                <span class="navi-text text-muted text-hover-primary">
+                                 @*   @(((ClaimsIdentity) User.Identity).GetSpecificClaim("mobilephone"))*@
+                                </span>
+                            </span>
+                        </span>
+                        <span class="navi-item">
+                            <span class="navi-link p-0 pb-2">
+                                <span class="navi-icon mr-1">
+                                    <span class="svg-icon svg-icon-lg svg-icon-primary">
+                                        <!--begin::Svg Icon | path:~/Panel/media/svg/icons/ارتباطات/Mail-notification.svg-->
+                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                <rect x="0" y="0" width="24" height="24" />
+                                                <path d="M21,12.0829584 C20.6747915,12.0283988 20.3407122,12 20,12 C16.6862915,12 14,14.6862915 14,18 C14,18.3407122 14.0283988,18.6747915 14.0829584,19 L5,19 C3.8954305,19 3,18.1045695 3,17 L3,8 C3,6.8954305 3.8954305,6 5,6 L19,6 C20.1045695,6 21,6.8954305 21,8 L21,12.0829584 Z M18.1444251,7.83964668 L12,11.1481833 L5.85557487,7.83964668 C5.4908718,7.6432681 5.03602525,7.77972206 4.83964668,8.14442513 C4.6432681,8.5091282 4.77972206,8.96397475 5.14442513,9.16035332 L11.6444251,12.6603533 C11.8664074,12.7798822 12.1335926,12.7798822 12.3555749,12.6603533 L18.8555749,9.16035332 C19.2202779,8.96397475 19.3567319,8.5091282 19.1603533,8.14442513 C18.9639747,7.77972206 18.5091282,7.6432681 18.1444251,7.83964668 Z" fill="#000000" />
+                                                <circle fill="#000000" opacity="0.3" cx="19.5" cy="17.5" r="2.5" />
+                                            </g>
+                                        </svg>
+                                        <!--end::Svg Icon-->
+                                    </span>
+                                </span>
+                                <span class="navi-text text-muted text-hover-primary">@*@(((ClaimsIdentity) User.Identity).GetSpecificClaim("emailaddress"))*@</span>
+                            </span>
+                        </span>
+                        <a href="/Logout" class="btn btn-sm btn-light-primary font-weight-bolder py-2 px-5">خروج</a>
+                    </div>
+                </div>
+            </div>
+
+            <!--end::Header-->
+            <!--begin::Separator-->
+            <div class="separator separator-dashed mt-8 mb-5"></div>
+            <!--end::Separator-->
+            <!--begin::Nav-->
+            <div class="navi navi-spacer-x-0 p-0">
+                <!--begin::Item-->
+                <a href="@Url.Action("Profile", "User", new { area = "Panel"})" class="navi-item">
+                    <div class="navi-link">
+                        <div class="symbol symbol-40 bg-light mr-3">
+                            <div class="symbol-label">
+                                <span class="svg-icon svg-icon-md svg-icon-success">
+                                    <!--begin::Svg Icon | path:~/Panel/media/svg/icons/general/اطلاع2.svg-->
+                                    <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 377.63 377.28">
+                                        <defs>
+                                            <style>
+                                                .profileCls-1 {
+                                                    fill: #1bc5bd;
+                                                }
+                                            </style>
+                                        </defs>
+                                        <title>profile</title>
+                                        <path class="profileCls-1" d="M380.74,185.32C377.88,94,302.51-.21,184.31,3.52,85.8,6.62,1.29,88.75,3.24,195.71,5.2,303.12,94.93,383,194.48,380.64,295.28,380.7,384.17,295,380.74,185.32ZM193.76,61.4c42.07.76,71.57,37.08,70.48,72.11,1.06,40.79-33.7,73.61-73.48,73.06S119.07,173,119.58,132.8,153,60.66,193.76,61.4ZM327.51,276.29c-4.59,8.42-10.53,15.84-17,22.86-25.37,27.74-56.63,44.9-93.75,50.65C175.94,356.12,138,347.73,103.43,325a152.62,152.62,0,0,1-44.14-44c-4.81-7.32-5-6.58,1-13.42,13.85-15.68,31.65-24.36,51.8-28.91,12.64-2.86,25.46-2.61,38.26-2.71,14.63-.13,29.26,0,43.89,0,19.34,0,38.69-.23,58,.44,27.37.94,51.26,10.15,70.49,30.15,1.63,1.69,3,3.61,4.49,5.46A3.55,3.55,0,0,1,327.51,276.29Z" transform="translate(-3.21 -3.41)" />
+                                    </svg>
+                                    <!--end::Svg Icon-->
+                                </span>
+                            </div>
+                        </div>
+                        <div class="navi-text">
+                            <div class="font-weight-bold">
+                                پروفایل من
+                            </div>
+                            <div class="text-muted">
+                                تنظیمات اکانت
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                <!--end:Item-->
+                <!--begin::Item-->
+                <a href="@Url.Action("List", "Message", new { area = "Panel"})" class="navi-item">
+                    <div class="navi-link">
+                        <div class="symbol symbol-40 bg-light mr-3">
+                            <div class="symbol-label">
+                                <span class="svg-icon svg-icon-md svg-icon-warning">
+                                    <!--begin::Svg Icon | path:~/Panel/media/svg/icons/Shopping/Chart-bar1.svg-->
+                                    <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 383.89 383.89">
+                                        <defs>
+                                            <style>
+                                                .messageCls-1 {
+                                                    fill: #267bb4;
+                                                }
+                                            </style>
+                                        </defs>
+                                        <title>message</title>
+                                        <path class="messageCls-1" d="M382.58,168.94c-8.28-60.41-38.23-107-89.42-139.94C269.51,13.81,243.43,5,215.52,1.56a7.89,7.89,0,0,1-1.05-.17A39.34,39.34,0,0,0,203.61.1H181.34a34.92,34.92,0,0,0-11,1.37,9.15,9.15,0,0,1-1.81.05C94,10.33,29.92,64.14,8.38,136a194.34,194.34,0,0,0-6.94,32.89,8,8,0,0,1,0,1.63A40.93,40.93,0,0,0,.07,182.63v19.06a40.16,40.16,0,0,0,1.37,11.87,9.78,9.78,0,0,1,0,1.62C11.17,282.88,46.56,332.44,107,364.05c19.41,10.15,40.29,16,62.07,18.56.49.06,1.12-.05,1.64.06A51.49,51.49,0,0,0,181,384h20.2a40,40,0,0,0,11.75-1.32,9.51,9.51,0,0,1,1.68,0c53.69-6.87,97.1-31.86,130.16-74.55C366,280.69,378.42,249.47,382.57,215c.06-.5,0-1.12.06-1.65A51.51,51.51,0,0,0,384,203.09v-22a58.73,58.73,0,0,0-1.39-10.7C382.49,169.92,382.63,169.32,382.58,168.94ZM312,247.05c0,9.41-4.6,14-14.05,14q-39.36,0-78.7,0a9.49,9.49,0,0,0-5.85,1.88q-31.09,22.19-62.29,44.23c-1.59,1.13-3.11,2.85-5.35,1.77s-1.69-3.39-1.69-5.32c0-12.86-.17-25.73.08-38.59.07-3.47-1-4-4.17-4-18,.15-36,.08-54,.07-9.36,0-13.94-4.65-14-14.1V125.14c0-9.41,4.62-14.06,14-14.07H297.76c9.67,0,14.22,4.54,14.23,14.19Q312,186.16,312,247.05Z" transform="translate(-0.07 -0.1)" />
+                                    </svg>
+                                    <!--end::Svg Icon-->
+                                </span>
+                            </div>
+                        </div>
+                        <div class="navi-text">
+                            <div class="font-weight-bold">
+                                پیام های من
+                            </div>
+                            <div class="text-muted">
+                                صندوق پیام ها
+                            </div>
+                        </div>
+                    </div>
+                </a>
+             
+            </div>
+            <!--end::Nav-->
+            <!--begin::Separator-->
+            <div class="separator separator-dashed my-7"></div>
+            <!--end::Separator-->
+            <!--begin::اعلان ها-->
+            <div>
+                <!--begin:Heading-->
+                <h5 class="mb-5">
+                    آخرین اعلان ها
+                </h5>
+                <!--end:Heading-->
+                <span class="text-center">اعلانی وجود ندارد</span>
+            </div>
+            <!--end::اعلان ها-->
+        </div>
+        <!--end::Content-->
+    </div>
+    <!-- end::User Panel-->
+    <!-- begin::followers Panel-->
+    <div id="kt_quick_followers" class="offcanvas offcanvas-right p-8" style="height: 100vh; overflow: auto;z-index: 99999">
+        <!--begin::Header-->
+        <div class="offcanvas-header d-flex align-items-center justify-content-between pb-5">
+            <h3 class="font-weight-bold m-0">
+                <small class="font-size-sm" id="followers_count"></small><small class="pl-2">نفر </small>
+            </h3>
+            <a href="#" class="btn btn-xs btn-icon btn-light btn-hover-primary" id="kt_quick_followers_close">
+                <i class="ki ki-close icon-xs text-muted"></i>
+            </a>
+        </div>
+        <!--end::Header-->
+        <!--begin::Content-->
+        <div class="offcanvas-content-followers offcanvas-content pr-5 mr-n5">
+            <div class="follow_slider" id="followers_slider">
+                <ul>
+                </ul>
+            </div>
+        </div>
+        <!--end::Content-->
+    </div>
+    <!-- end::followers Panel-->
+    <!-- begin::following Panel-->
+    <div id="kt_quick_following" class="offcanvas offcanvas-right p-8" style="height: 100vh; overflow: auto;z-index: 99999">
+        <!--begin::Header-->
+        <div class="offcanvas-header d-flex align-items-center justify-content-between pb-5">
+            <h3 class="font-weight-bold m-0">
+                <small class="font-size-sm" id="following_count"></small><small class="pl-2">نفر </small>
+            </h3>
+            <a href="#" class="btn btn-xs btn-icon btn-light btn-hover-primary" id="kt_quick_following_close">
+                <i class="ki ki-close icon-xs text-muted"></i>
+            </a>
+        </div>
+        <!--end::Header-->
+        <!--begin::Content-->
+        <div class="offcanvas-content-following offcanvas-content pr-5 mr-n5">
+            <div class="follow_slider" id="following_slider">
+                <ul>
+                </ul>
+            </div>
+        </div>
+        <!--end::Content-->
+    </div>
+    <!-- end::following Panel-->
+    <!--begin::Scrolltop-->
+    <div id="kt_scrolltop" class="scrolltop">
+        <span class="svg-icon">
+            <!--begin::Svg Icon | path:~/Panel/media/svg/icons/Navigation/Up-2.svg-->
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                    <polygon points="0 0 24 0 24 24 0 24" />
+                    <rect fill="#000000" opacity="0.3" x="11" y="10" width="2" height="10" rx="1" />
+                    <path d="M6.70710678,12.7071068 C6.31658249,13.0976311 5.68341751,13.0976311 5.29289322,12.7071068 C4.90236893,12.3165825 4.90236893,11.6834175 5.29289322,11.2928932 L11.2928932,5.29289322 C11.6714722,4.91431428 12.2810586,4.90106866 12.6757246,5.26284586 L18.6757246,10.7628459 C19.0828436,11.1360383 19.1103465,11.7686056 18.7371541,12.1757246 C18.3639617,12.5828436 17.7313944,12.6103465 17.3242754,12.2371541 L12.0300757,7.38413782 L6.70710678,12.7071068 Z" fill="#000000" fill-rule="nonzero" />
+                </g>
+            </svg>
+            <!--end::Svg Icon-->
+        </span>
+    </div>
+    <!--end::Scrolltop-->
+    <!--follower-->
+
+    @{
+        if (ViewBag.IsAddScreenPage != null)
+        {
+            <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+        }
+    }
+
+  
+    <script>var HOST_URL = "https://preview.keenthemes.com/metronic/theme/html/tools/preview";</script>
+    <!--begin::Global Config(global config for global جی اس scripts)-->
+    <script>
+        var KTAppSettings = {
+            "breakpoints": {
+                "sm": 576,
+                "md": 768,
+                "lg": 992,
+                "xl": 1200,
+                "xxl": 1400
+            },
+            "colors": {
+                "theme": {
+                    "base": {
+                        "white": "#ffffff",
+                        "primary": "#3699FF",
+                        "secondary": "#E5EAEE",
+                        "success": "#1BC5BD",
+                        "info": "#8950FC",
+                        "warning": "#FFA800",
+                        "danger": "#F64E60",
+                        "light": "#E4E6EF",
+                        "dark": "#181C32"
+                    },
+                    "light": {
+                        "white": "#ffffff",
+                        "primary": "#E1F0FF",
+                        "secondary": "#EBEDF3",
+                        "success": "#C9F7F5",
+                        "info": "#EEE5FF",
+                        "warning": "#FFF4DE",
+                        "danger": "#FFE2E5",
+                        "light": "#F3F6F9",
+                        "dark": "#D6D6E0"
+                    },
+                    "inverse": {
+                        "white": "#ffffff",
+                        "primary": "#ffffff",
+                        "secondary": "#3F4254",
+                        "success": "#ffffff",
+                        "info": "#ffffff",
+                        "warning": "#ffffff",
+                        "danger": "#ffffff",
+                        "light": "#464E5F",
+                        "dark": "#ffffff"
+                    }
+                },
+                "gray": {
+                    "gray-100": "#F3F6F9",
+                    "gray-200": "#EBEDF3",
+                    "gray-300": "#E4E6EF",
+                    "gray-400": "#D1D3E0",
+                    "gray-500": "#B5B5C3",
+                    "gray-600": "#7E8299",
+                    "gray-700": "#5E6278",
+                    "gray-800": "#3F4254",
+                    "gray-900": "#181C32"
+                }
+            },
+            "font-family": "Poppins"
+        };
+    </script>
+    <!--end::Global Config-->
+    <!--begin::Global تم Bundle(used by all pages)-->
+    @{
+        if (ViewBag.IsAddScreenPage == null)
+        {
+            <script src="~/Panel/plugins/global/plugins.bundle.js?v=7.0.6"></script>
+        }
+    }
+    <!--<script src="~/Panel/plugins/global/plugins.bundle.js?v=7.0.6"></script>-->
+    <script src="~/Panel/plugins/custom/prismjs/prismjs.bundle.js?v=7.0.6"></script>
+    <script src="~/Panel/js/scripts.bundle.js?v=7.0.6"></script>
+    <!--end::Global تم Bundle-->
+    <!--begin::Page Vendors(used by this page)-->
+    <!--<script src="~/Panel/plugins/custom/fullcalendar/fullcalendar.bundle.js?v=7.0.6"></script>-->
+    <!--end::Page Vendors-->
+    <!--begin::Page Scripts(used by this page)-->
+    <script src="~/Panel/js/pages/widgets.js?v=7.0.6"></script>
+    @if (TempData["Status"] != null)
+    {
+        <script>
+            Swal.fire(
+                '@TempData["Status"]'=='success'?"تبریک!":"وای!",
+                '@TempData["Message"]',
+                '@TempData["Status"]'=='success'?"success":"error"
+            )
+
+        </script>
+
+    }
+    @if (TempData["Errors"] != null)
+    {
+        <script>
+            jQuery(document).ready(function() {
+                let deserialized = JSON.parse('@TempData["Errors"]'.replace(/&quot;/g, '"'))
+                deserialized.forEach(x=>{
+                    let field = $(`[name=${x.Name}]`)
+                    if (x.Errors.length > 0){
+                        field.addClass("is-invalid")
+                        x.Errors.forEach(e=>{
+                            field.after(`<div class="invalid-feedback">${e}</div>`)
+                        })
+                    }
+                    else
+                        field.addClass("is-valid")
+                })
+
+            })
+
+        </script>
+    }
+    @RenderSection("scripts", required: false)
+
+
+    <!--end::Page Scripts-->
+
+</body>
+<!--end::Body-->
+</html>

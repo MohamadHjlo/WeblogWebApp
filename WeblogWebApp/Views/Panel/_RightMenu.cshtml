@@ -1,0 +1,192 @@
+﻿@using Azure.Core
+@{
+    string pageUrl = Context.Request.Path.ToString();
+    bool isAdminOrSuperAdmin = true; //User.IsInRole(DomainClasses.Entities.Role.Enum.RoleType.Admin.ToString())|| User.IsInRole(DomainClasses.Entities.Role.Enum.RoleType.SuperAdmin.ToString());
+}
+
+<style>
+
+    .cls-1 {
+        fill: #88a7fc;
+        width: 21px;
+    }
+
+    .cls-2 {
+        fill: #486fff;
+        width: 21px;
+    }
+
+    .aside-menu .menu-nav > .menu-item .menu-submenu .menu-item > .menu-link .menu-bullet {
+        margin-left: 5px
+    }
+
+        .aside-menu .menu-nav > .menu-item .menu-submenu .menu-item > .menu-link .menu-bullet svg {
+            width: 18px;
+        }
+</style>
+
+<div class="aside aside-left  aside-fixed  d-flex flex-column flex-row-auto" id="kt_aside">
+    <!--begin::Brand-->
+    <div class="brand flex-column-auto " id="kt_brand">
+        <!--begin::Logo-->
+        <a href="/" class="align-items-center brand-logo d-flex justify-content-center">
+            <img src="~/Panel/media/logos/logo-letter-2.png" alt="Alternate Text" width="54px" />
+            <span style="color:#ffbc42; padding-right: 5px;" id="logoText">وبلاگ</span>
+        </a>
+        <!--end::Logo-->
+        <!--begin::Toggle-->
+        <button class="brand-toggle btn btn-sm px-0" id="kt_aside_toggle">
+            <span class="svg-icon svg-icon svg-icon-xl">
+                <!--begin::Svg Icon | path:~/Panel/media/svg/icons/Navigation/Angle-double-left.svg-->
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                        <polygon points="0 0 24 0 24 24 0 24" />
+                        <path d="M5.29288961,6.70710318 C4.90236532,6.31657888 4.90236532,5.68341391 5.29288961,5.29288961 C5.68341391,4.90236532 6.31657888,4.90236532 6.70710318,5.29288961 L12.7071032,11.2928896 C13.0856821,11.6714686 13.0989277,12.281055 12.7371505,12.675721 L7.23715054,18.675721 C6.86395813,19.08284 6.23139076,19.1103429 5.82427177,18.7371505 C5.41715278,18.3639581 5.38964985,17.7313908 5.76284226,17.3242718 L10.6158586,12.0300721 L5.29288961,6.70710318 Z" fill="#000000" fill-rule="nonzero" transform="translate(8.999997, 11.999999) scale(-1, 1) translate(-8.999997, -11.999999) " />
+                        <path d="M10.7071009,15.7071068 C10.3165766,16.0976311 9.68341162,16.0976311 9.29288733,15.7071068 C8.90236304,15.3165825 8.90236304,14.6834175 9.29288733,14.2928932 L15.2928873,8.29289322 C15.6714663,7.91431428 16.2810527,7.90106866 16.6757187,8.26284586 L22.6757187,13.7628459 C23.0828377,14.1360383 23.1103407,14.7686056 22.7371482,15.1757246 C22.3639558,15.5828436 21.7313885,15.6103465 21.3242695,15.2371541 L16.0300699,10.3841378 L10.7071009,15.7071068 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" transform="translate(15.999997, 11.999999) scale(-1, 1) rotate(-270.000000) translate(-15.999997, -11.999999) " />
+                    </g>
+                </svg>
+                <!--end::Svg Icon-->
+            </span>
+        </button>
+        <!--end::Toolbar-->
+    </div>
+    <!--end::Brand-->
+    <!--begin::Aside Menu-->
+    <div class="aside-menu-wrapper flex-column-fluid" id="kt_aside_menu_wrapper">
+        <!--begin::Menu Container-->
+        <div id="kt_aside_menu"
+             class="aside-menu my-4 "
+             data-menu-vertical="1"
+             data-menu-scroll="1" data-menu-dropdown-timeout="500">
+            <!--begin::Menu Nav-->
+            <ul class="menu-nav ">
+             
+                <li class="menu-item  @(pageUrl.Contains("User/Profile") ? "menu-item-active" : string.Empty)" aria-haspopup="true">
+                    <a href="/Panel/User/Profile" class="menu-link ">
+                        <span class="svg-icon menu-icon">
+                            <!--begin::Svg Icon | path:~/Panel/media/svg/icons/desgin/Layers.svg-->
+                            <svg stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" id="Layer_1" style="width:22px;height:22px;" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 377.63 377.28">
+                                <title>profile</title>
+                                <path class="cls-1" d="M380.74,185.32C377.88,94,302.51-.21,184.31,3.52,85.8,6.62,1.29,88.75,3.24,195.71,5.2,303.12,94.93,383,194.48,380.64,295.28,380.7,384.17,295,380.74,185.32ZM193.76,61.4c42.07.76,71.57,37.08,70.48,72.11,1.06,40.79-33.7,73.61-73.48,73.06S119.07,173,119.58,132.8,153,60.66,193.76,61.4ZM327.51,276.29c-4.59,8.42-10.53,15.84-17,22.86-25.37,27.74-56.63,44.9-93.75,50.65C175.94,356.12,138,347.73,103.43,325a152.62,152.62,0,0,1-44.14-44c-4.81-7.32-5-6.58,1-13.42,13.85-15.68,31.65-24.36,51.8-28.91,12.64-2.86,25.46-2.61,38.26-2.71,14.63-.13,29.26,0,43.89,0,19.34,0,38.69-.23,58,.44,27.37.94,51.26,10.15,70.49,30.15,1.63,1.69,3,3.61,4.49,5.46A3.55,3.55,0,0,1,327.51,276.29Z" transform="translate(-3.21 -3.41)" />
+                            </svg>
+                            <!--end::Svg Icon-->
+                        </span>
+                        <span class="menu-text">پروفایل</span>
+                    </a>
+                </li>
+               
+
+
+                @if (isAdminOrSuperAdmin @*|| User.IsInRole(DomainClasses.Entities.Role.Enum.RoleType.Author.ToString())*@)
+                {
+                    var productSubmenu = new[] { "/Panel/Post/List", "/Panel/Post/Add", "/Panel/PostCategory/List", "/Panel/Tag/List", "/Panel/Tag/Add" };
+                    <li class="menu-item  @(productSubmenu.Any(x=>pageUrl.Equals(x)) ? "menu-item-active menu-item-open" : string.Empty)  menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
+                        <a href="javascript:;" class="menu-link menu-toggle">
+                            <span class="svg-icon menu-icon">
+                                <!--begin::Svg Icon | path:~/Panel/media/svg/icons/layout/layout-4-blocks.svg-->
+                                <svg style="color: rgb(136, 167, 252);" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-post-fill" viewBox="0 0 16 16"> <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zm-5-.5H7a.5.5 0 0 1 0 1H4.5a.5.5 0 0 1 0-1zm0 3h7a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-7a.5.5 0 0 1 .5-.5z" fill="#88a7fc"></path> </svg> 
+                                <!--end::Svg Icon-->
+                            </span>
+                            <span class="menu-text">پست ها</span><i class="menu-arrow"></i>
+                        </a>
+                        <div class="menu-submenu ">
+                            <i class="menu-arrow"></i>
+                            <ul class="menu-subnav">
+                                <li class="menu-item  menu-item-parent" aria-haspopup="true">
+                                    <span class="menu-link">
+                                        <span class="menu-text">لیست پست ها</span>
+                                    </span>
+                                </li>
+                                <li class="menu-item  @(pageUrl.Contains("Post/List") ? "menu-item-active" : string.Empty)" aria-haspopup="true">
+                                    <a href="/Post/List" class="menu-link ">
+                                        <i class="menu-bullet menu-bullet-line">
+                                            <span></span>
+                                        </i><span class="menu-text">لیست پست ها</span>
+                                    </a>
+                                </li>
+                                <li class="menu-item  @(pageUrl == "/PostCategory/List" ? "menu-item-active" : string.Empty)  menu-item-submenu" aria-haspopup="true">
+                                    <a href="/PostCategory/List" class="menu-link ">
+                                        <i class="menu-bullet menu-bullet-line">
+                                            <span></span>
+                                        </i><span class="menu-text">دسته بندی‌ها</span>
+                                    </a>
+                                </li>
+                                <li class="menu-item  @(pageUrl.Contains("Tag") ? "menu-item-active" : string.Empty)  menu-item-submenu" aria-haspopup="true">
+                                    <a href="/PostTag/List" class="menu-link ">
+                                        <i class="menu-bullet menu-bullet-line">
+                                            <span></span>
+                                        </i><span class="menu-text">برچسب‌ها</span>
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </li>
+                }
+                @{
+                    var screenSubmenu = new[] { "Screen/List", "Message", "Discount", "Critic", "ProductComment", "Transaction", "User/List/?roleId=4", "User/List/?roleId=6", "User/List/?roleId=7" };
+                }
+
+                @if (isAdminOrSuperAdmin)
+                {
+                    var settingSubmenu = new[] { "Rule", "Widget", "Setting/Add", "CinemaMardomLink" };
+                    <li class="menu-item  @(settingSubmenu.Any(x=>pageUrl.Contains(x)) ? "menu-item-active menu-item-open" : string.Empty)  menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
+                        <a href="javascript:;" class="menu-link menu-toggle">
+                            <span class="svg-icon menu-icon">
+                                <!--begin::Svg Icon | path:~/Panel/media/svg/icons/layout/layout-4-blocks.svg-->
+                                <svg id="Layer_1" style="width:19px;height:19px;" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 511.9 501.81">
+                                    <title>setings</title>
+                                    <path class="cls-1" d="M.1,252c3.92-8.63,10.69-11.2,20-11.17,77.6.25,155.2.14,232.8.15a38.47,38.47,0,0,1,7,.28,15,15,0,0,1-2,29.69c-1.82.13-3.66.07-5.49.07-77.43,0-154.87-.11-232.3.14-9.28,0-16-2.54-20-11.17Z" transform="translate(0 -5.18)" />
+                                    <path class="cls-1" d="M511.9,441.93c-3.95,8.6-10.72,11.17-20,11.14-77.77-.24-155.53-.13-233.3-.15a31.54,31.54,0,0,1-7-.43,15,15,0,0,1,3-29.55c1.83-.09,3.66-.05,5.49-.05,77.27,0,154.54.11,231.81-.14,9.28,0,16.05,2.52,19.95,11.19Z" transform="translate(0 -5.18)" />
+                                    <path class="cls-1" d="M511.9,78.07C508,86.73,501.24,89.29,492,89.26c-72.74-.25-145.49-.13-218.23-.15-10.21,0-16.79-6-16.81-15a14.88,14.88,0,0,1,13.78-15c1.82-.15,3.66-.07,5.5-.07,71.9,0,143.81.11,215.72-.15,9.27,0,16,2.55,20,11.15Z" transform="translate(0 -5.18)" />
+                                    <path class="cls-1" d="M231.11,62.7c-5-31.28-31.79-55.52-63.35-57.4-32.14-1.92-61.84,18.63-70.44,49.15-1.12,3.94-2.64,4.74-6.35,4.71-23.66-.17-47.32.21-71-.23-9.29-.17-16,2.54-20,11.15v8c3.89,8.67,10.67,11.37,20,11.2,23.82-.44,47.65-.08,71.47-.23,3.34,0,4.77.7,5.73,4.21,7.46,27.26,33,47.88,61.09,49.64C203.14,145.7,238.26,107.05,231.11,62.7Zm-68,50.21a38.77,38.77,0,0,1-38.36-39.55c.64-21,18-38.45,38.83-38.14a39.16,39.16,0,0,1,38.49,39.12C202,95.58,184.13,113.38,163.13,112.91Z" transform="translate(0 -5.18)" />
+                                    <path class="cls-1" d="M491.93,240.83c-18.47.49-37,.09-55.45.21-2.78,0-3.92-.68-4.73-3.55-9-32.12-40.27-53.64-72.54-50.2-34.73,3.71-60.66,30.9-62.44,65.47-1.77,34.38,23.2,65.8,56.51,71.1,35.56,5.67,68.88-15,78.35-48.86.93-3.32,2.21-4.06,5.35-4,18.32.14,36.64-.28,54.95.21,9.3.25,16.05-2.54,20-11.17v-8C508,243.38,501.23,240.59,491.93,240.83Zm-126.57,54a39,39,0,0,1-38.59-39c.07-21.29,17.67-38.86,38.8-38.75a38.71,38.71,0,0,1,38.44,39C404,277.52,386.54,295,365.36,294.86Z" transform="translate(0 -5.18)" />
+                                    <path class="cls-1" d="M159.19,370.11C123.75,364,89.85,384.9,80.36,418.92c-.93,3.33-2.23,4.06-5.36,4-18.32-.13-36.65.28-54.95-.2C10.75,422.5,4,425.27.1,433.94v8c3.94,8.6,10.7,11.39,20,11.15,18.48-.49,37-.09,55.45-.21,2.79,0,3.91.69,4.71,3.56,9,32.1,40.39,53.73,72.56,50.18,34.9-3.86,60.63-30.85,62.42-65.48C217,407,192.41,375.81,159.19,370.11ZM146.63,476.79c-21.28.17-38.72-17.49-38.65-39.15.07-21.33,17.55-38.77,38.69-38.59a38.87,38.87,0,0,1,0,77.74Z" transform="translate(0 -5.18)" />
+                                </svg>
+                                <!--end::Svg Icon-->
+                            </span>
+                            <span class="menu-text">تنظیمات</span><i class="menu-arrow"></i>
+                        </a>
+                        <div class="menu-submenu ">
+                            <i class="menu-arrow"></i>
+                            <ul class="menu-subnav">
+                                <li class="menu-item  @(pageUrl.Contains("Rule") ? "menu-item-active" : string.Empty)" aria-haspopup="true">
+                                    <a href="/Panel/Rule/Add" class="menu-link ">
+                                        <i class="menu-bullet menu-bullet-line">
+                                            <span></span>
+                                        </i><span class="menu-text">قوانین و مقررات</span>
+                                    </a>
+                                </li>
+                                <li class="menu-item  @(pageUrl.Contains("Setting/Add") ? "menu-item-active" : string.Empty)" aria-haspopup="true">
+                                    <a href="/Panel/Setting/Add" class="menu-link ">
+                                        <i class="menu-bullet menu-bullet-line">
+                                            <span></span>
+                                        </i><span class="menu-text">تنظیمات سایت</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                }
+
+                <li class="menu-item" aria-haspopup="true">
+                    <a href="/Logout" class="menu-link ">
+                        <span class="svg-icon menu-icon">
+                            <!--begin::Svg Icon | path:~/Panel/media/svg/icons/desgin/Layers.svg-->
+                            <svg id="Layer_1" style="width:19px;height:19px;" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 514.62 520.98">
+                                <title>logout</title>
+                                <path class="cls-1" d="M394.36,0c2.76,1,5.74.79,8.56,1.52a37.76,37.76,0,0,1,8.13,2.86c7.95,4.14,11.51,10.9,11.54,19.67,0,12.86-.07,25.73.08,38.59,0,2.45-.74,2.81-2.94,2.81q-83.61-.09-167.24,0-92,0-184-.08c-2.77,0-3.22.81-3.22,3.35.08,52.07-.07,104.14.12,156.2.08,21.7.23,43.4.1,65.09-.33,54.17,0,108.33-.22,162.49,0,2.55.62,3.15,3.15,3.15q175.38-.11,350.75,0c4,0,3.46-.54,3.46,3.47,0,12-.05,24,0,36,.07,13.6-6.29,21.47-19.67,24.37-2.84.61-5.8.47-8.56,1.52h-1.57c-1.46-1.21-3.16-.45-4.72-.45q-178.14-.07-356.28,0c-.79,0-1.76-.52-2.38.47H27.83c-1-1-2.38-.76-3.58-1-11.95-2.66-19.87-9.47-23.06-21.47C.8,497.05,1,495.42,0,494.14V26.78c.55-.16.48-.64.56-1.05C3.56,10.31,13.22,1.61,28.81.41c2,0,4,.11,6,.11H391c.77,0,1.76.57,2.34-.49Z" />
+                                <path class="cls-1" d="M514.62,259.39,398.3,379.51l-41.38,42.72c-.67-.93-.34-1.9-.35-2.77v-109c0-2.2-.38-2.87-2.77-2.86q-94.38.12-188.76.13c-2.6,0-3.06-.69-3-3.14q.13-47.25,0-94.51c0-2.28.51-2.84,2.83-2.83q94.38.1,188.76.11c2.32,0,3-.5,3-2.94q.12-52.11.46-104.22V97.65c1.34,1.34,2.37,2.34,3.37,3.37q76.27,78.25,152.45,156.49c.51.52.82,1.37,1.76,1.38Z" />
+                            </svg>
+                            <!--end::Svg Icon-->
+                        </span>
+                        <span class="menu-text">خروج</span>
+                    </a>
+                </li>
+            </ul>
+            <!--end::Menu Nav-->
+        </div>
+        <!--end::Menu Container-->
+    </div>
+    <!--end::Aside Menu-->
+</div>
