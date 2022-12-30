@@ -184,17 +184,17 @@
                         <!--end::Header Menu Wrapper-->
                         <!--begin::Topbar-->
                         <div class="topbar">
-                           
-                        
+
+
                             <!--end::چت-->
                             <!--begin::زبان ها-->
-                           
                             <!--end::زبان ها-->
                             <!--begin::User-->
                             <div class="topbar-item">
                                 <div class="btn btn-icon btn-icon-mobile w-auto btn-clean d-flex align-items-center btn-lg px-2" id="kt_quick_user_toggle">
                                     <span class="text-dark-50 font-weight-bolder font-size-base d-none d-md-inline mr-3">
-                                   @*     @(((ClaimsIdentity) User.Identity).GetSpecificClaim("givenname"))  *@  </span>
+                                        @*     @(((ClaimsIdentity) User.Identity).GetSpecificClaim("givenname"))  *@
+                                    </span>
                                     <span class="symbol symbol-lg-35 symbol-25 symbol-light-success">
                                         <span class="symbol-label font-size-h5 font-weight-bold">
                                             <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -248,7 +248,7 @@
                 </div>
                 <div class="d-flex flex-column">
                     <span class="font-weight-bold font-size-h5 text-dark-75 text-hover-primary">
-                @*        @(((ClaimsIdentity)User.Identity).GetSpecificClaim("givenname"))*@
+                        @*        @(((ClaimsIdentity)User.Identity).GetSpecificClaim("givenname"))*@
                     </span>
                     <div class="navi mt-2">
                         <span class="navi-item">
@@ -269,7 +269,7 @@
                                     </span>
                                 </span>
                                 <span class="navi-text text-muted text-hover-primary">
-                                 @*   @(((ClaimsIdentity) User.Identity).GetSpecificClaim("mobilephone"))*@
+                                    @*   @(((ClaimsIdentity) User.Identity).GetSpecificClaim("mobilephone"))*@
                                 </span>
                             </span>
                         </span>
@@ -367,7 +367,7 @@
                         </div>
                     </div>
                 </a>
-             
+
             </div>
             <!--end::Nav-->
             <!--begin::Separator-->
@@ -448,14 +448,11 @@
     <!--end::Scrolltop-->
     <!--follower-->
 
-    @{
-        if (ViewBag.IsAddScreenPage != null)
-        {
-            <script src="~/Scripts/jquery-3.4.1.min.js"></script>
-        }
-    }
 
-  
+    <script src="~/js/jQuery.min.js"></script>
+
+
+
     <script>var HOST_URL = "https://preview.keenthemes.com/metronic/theme/html/tools/preview";</script>
     <!--begin::Global Config(global config for global جی اس scripts)-->
     <script>
@@ -539,9 +536,9 @@
     {
         <script>
             Swal.fire(
-                '@TempData["Status"]'=='success'?"تبریک!":"وای!",
+                '@TempData["Status"]' == 'success' ? "تبریک!" : "وای!",
                 '@TempData["Message"]',
-                '@TempData["Status"]'=='success'?"success":"error"
+                '@TempData["Status"]' == 'success' ? "success" : "error"
             )
 
         </script>
@@ -550,13 +547,13 @@
     @if (TempData["Errors"] != null)
     {
         <script>
-            jQuery(document).ready(function() {
+            jQuery(document).ready(function () {
                 let deserialized = JSON.parse('@TempData["Errors"]'.replace(/&quot;/g, '"'))
-                deserialized.forEach(x=>{
+                deserialized.forEach(x => {
                     let field = $(`[name=${x.Name}]`)
-                    if (x.Errors.length > 0){
+                    if (x.Errors.length > 0) {
                         field.addClass("is-invalid")
-                        x.Errors.forEach(e=>{
+                        x.Errors.forEach(e => {
                             field.after(`<div class="invalid-feedback">${e}</div>`)
                         })
                     }
@@ -568,7 +565,8 @@
 
         </script>
     }
-    @RenderSection("scripts", required: false)
+
+    @await RenderSectionAsync("scripts", required: false)
 
 
     <!--end::Page Scripts-->

@@ -38,7 +38,7 @@
                 <span class="">برچسب ها: </span>
                 @foreach (var item in Model.Tags)
                 {
-                    <a class="border-0 tag-cloud-link" style="background: #f9b233; color: #000 !important" href="/main/Blog/TagArchive/@item.Key">@item.Value</a>
+                    <a class="border-0 tag-cloud-link" style="background: #f9b233; color: #000 !important" href="/Home/TagArchive/@item.Key">@item.Value</a>
                 }
             </div>
         </div>
@@ -50,20 +50,7 @@
         </div>
         <!--More posts-->
         <!--Comments-->
-        <div class="comments-area">
-            <div class="widget-header-2 position-relative mb-30">
-                <h5 class="mt-5 mb-30">نظرات شما</h5>
-            </div>
-
-
-        </div>
-        <!--comment form-->
-        <div class="comment-form wow fadeIn animated pb-20">
-            <div class="widget-header-2 position-relative">
-                <h5 class="mt-5 mb-30">ارسال نظر</h5>
-            </div>
-            
-        </div>
+        
     </article>
 </div>
 <!--container-->
@@ -75,12 +62,6 @@
 
 
 @section scripts{
-    <script src="~/Content/Main/js/blog/vendor/wow.min.js"></script>
-    <script src="~/Content/Main/js/blog/vendor/jquery.scrollUp.min.js"></script>
-    <script src="~/Content/Main/js/blog/vendor/jquery.sticky.js"></script>
-    <script src="~/Content/Main/js/blog/vendor/jquery.theia.sticky.js"></script>
-    <script src="~/Content/Main/js/blog/main.js"></script>
-
     <script>
 
         $(document).ready(function () {

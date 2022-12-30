@@ -107,7 +107,7 @@ namespace WeblogWebApp.Controllers
                 .Where(i => i.Visible && i.CatId == id)
                 .Include(p => p.PostMedias)
                 .Include(p => p.PostCategory)
-                .Select(i => new SinglePostInBlogViewModel
+                .ToList().Select(i => new SinglePostInBlogViewModel
                 {
                     Id = i.Id,
                     Slug = i.Slug,
@@ -129,7 +129,7 @@ namespace WeblogWebApp.Controllers
             model.Posts = posts;
             model.Pagination = page;
 
-            return PartialView(model);
+            return PartialView("_CategoryArchive",model);
 
         }
 
@@ -196,7 +196,7 @@ namespace WeblogWebApp.Controllers
 
             }
 
-            return PartialView(model);
+            return PartialView("_TagArchive",model);
 
 
         }

@@ -18,16 +18,6 @@ string Domain = Context.Request.Scheme + System.Uri.SchemeDelimiter + Context.Re
                             <div class="img-hover-slide border-radius-5 position-relative" style="background-image: url(/Media/Post/Thumb/@item.Media.Image)">
                                 <a class="img-link" href="/Home/Single/@item.Id"></a>
                             </div>
-                            <ul class="social-share">
-                                <li><a href="#"><i class="elegant-icon social_share"></i></a></li>
-                                <li><a class="fb" href="@("https://eitaa.com/share/url?url="+siteUrl+"/Home/Single/"+item.Id+"/"+item.Slug)" title="اشتراک گذاری در ایتا" target="_blank" rel="noopener noreferrer"><i class=""><img src="/Content/Main/images/footer/contact/social/eita.svg" style="width: 50%" alt="ایکون ایتا" /></i></a></li>
-                                <li><a class="fb" href="@("https://www.linkedin.com/shareArticle?mini=true"+item.Slug+"&title=&url="+siteUrl+"/Home/Single/"+item.Id+"/"+item.Slug)" title="اشتراک گذاری در لینکدین" target="_blank" rel="noopener noreferrer"><i class="elegant-icon social_linkedin"></i></a></li>
-                                <li><a class="fb" href="@("https://telegram.me/share/url?url="+siteUrl+"/Home/Single/"+item.Id+"/"+item.Slug)" title="اشتراک گذاری در تلگرام" target="_blank" rel="noopener noreferrer"><i class=""><img src="~/Content/Main/images/icon-telegram.svg" style="width: 50%" alt="ایکون تلگرام" /></i></a></li>
-                                <li><a class="fb" href="@("https://web.whatsapp.com/send?text="+siteUrl+"/Home/Single/"+item.Id+"/"+item.Slug)" title="اشتراک گذاری در واتساپ" target="_blank" rel="noopener noreferrer"><i class=""><img src="~/Content/Main/images/icon-whatsapp.svg" style="width: 50%" alt="آیکون واتساپ" /></i></a></li>
-                                <li><a class="fb" href="@("https://www.facebook.com/sharer/sharer.php?u="+siteUrl+"/Home/Single/"+item.Id+"/"+item.Slug)" title="اشتراک گذاری در فیس بوک" target="_blank" rel="noopener noreferrer"><i class="elegant-icon social_facebook"></i></a></li>
-                                <li><a class="tw" href="@("https://twitter.com/share?text="+@item.Slug+"&url="+siteUrl+"/Home/Single/"+item.Id+"/"+item.Slug)" target="_blank" title="اشتراک گذاری در توییتر" rel="noopener noreferrer"><i class="elegant-icon social_twitter"></i></a></li>
-                                <li><a class="pt" href="@("//www.pinterest.com/pin/create/button/?description="+item.Slug+"&media="+siteUrl+"/Media/Post/Thumb/"+item.Media.Image+"&url="+siteUrl+"/Home/Single/"+item.Id+"/"+item.Slug)" target="_blank" title="اشتراک گذاری در پینترست " rel="noopener noreferrer"><i class="elegant-icon social_pinterest"></i></a></li>
-                            </ul>
                         </div>
                     </div>
                     <div class="col-md-8 align-self-center">

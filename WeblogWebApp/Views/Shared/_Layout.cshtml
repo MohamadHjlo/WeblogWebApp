@@ -34,7 +34,7 @@
 
     <header class="bg-dark">
         <nav class="navbar navbar-expand-lg navbar-dark">
-            <a class="navbar-brand" href="/"><img src="Panel/media/logos/logo-letter-2.png" width="80">وبلاگ</a>
+            <a class="navbar-brand" href="/"><img src="~/Panel/media/logos/logo-letter-2.png" width="80">وبلاگ</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -43,7 +43,7 @@
                 <ul class="navbar-nav ml-lg-auto mr-lg-5 mr-xs-auto">
                     <li class="nav-item pr-3">
                         <a class="nav-link d-flex" asp-controller="Post" asp-action="List">
-                            <span class="nav-link-title"><span class="fa fa-android"> پنل</span></span>
+                            <span class="btn btn-outline-info fa fa-android"> پـــنـــل</span>
                         </a>
                     </li>
 
@@ -72,7 +72,7 @@
     <div class="container px-0">
         <div class="main_bottom_arc  text-center d-none d-lg-block">
         </div>
-        <footer class="bg-dark row">test</footer>
+        <footer class="bg-dark row"></footer>
     </div>
 
 
@@ -90,6 +90,50 @@
     <script src="~/Plugins/select2/select2.min.js"></script>
 
     <script src="~/js/custom.js"></script>
+    <script src="~/blog/vendor/wow.min.js"></script>
+    <script src="~/blog/vendor/jquery.scrollUp.min.js"></script>
+    <script src="~/blog/vendor/jquery.sticky.js"></script>
+    <script src="~/blog/vendor/jquery.theia.sticky.js"></script>
+    <script src="~/blog/main.js"></script>
+
+    <script>
+
+
+        $(document).on("click", ".pagination-area .page-item", function (e) {
+            e.preventDefault();
+            var currentPage = $(this).attr("data-page");
+
+            $.ajax({
+                method: "post",
+                data: { currentPage: currentPage },
+                url: '@Url.Action("GetLatestPostsForPartialView","Home")',
+                success: function (data) {
+                    $("#latestNews").empty();
+                    $("#latestNews").html(data);
+                },
+                error: function (error) {
+
+                }
+            });
+        });
+
+        $(document).ready(function () {
+            $.ajax({
+                method: "post",
+                contenttype: false,
+                proccesData: false,
+                url: '@Url.Action("GetMostViewsPost","Home")',
+                success: function (data) {
+                    $("#mostViewsNews").empty();
+                    $("#mostViewsNews").html(data);
+                },
+                error: function (error) {
+
+                }
+            });
+        });
+
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 
 
