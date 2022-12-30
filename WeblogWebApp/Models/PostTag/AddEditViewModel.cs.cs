@@ -18,6 +18,8 @@ namespace WeblogWebApp.Models.PostTag
 
 
         [Display(Name = "توضیحات")]
+        [Required(ErrorMessage = "وارد کردن {0} الزامیست")]
+
         public string Describtion { get; set; }
 
 
