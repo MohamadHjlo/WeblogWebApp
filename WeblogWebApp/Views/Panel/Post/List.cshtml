@@ -89,7 +89,7 @@
                                     گزینه ای را انتخاب کنید:
                                 </li>
                                 <li class="navi-item">
-                                    <a href="#" class="navi-link">
+                                    <a href="#" id="export_print" class="navi-link">
                                         <span class="navi-icon"><i class="la la-print"></i></span>
                                         <span class="navi-text">چاپ</span>
                                     </a>
@@ -266,6 +266,7 @@
 
                 $('#export_excel').on('click', function (e) {
                     e.preventDefault();
+                    console.log(table.button(2));
                     table.button(2).trigger();
                 });
 
