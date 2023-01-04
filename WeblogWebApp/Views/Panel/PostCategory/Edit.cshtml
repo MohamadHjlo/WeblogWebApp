@@ -103,18 +103,23 @@
 
                 </div>
 
-                <div class="col-md-4">
-                    <div class="panel panel-primary">
+                <div class="col-lg-4 col-xl-4 d-flex flex-column mt-3 mt-md-0">
+                    
+                    <div>
                         <div class="panel-heading">تصویر بند انگشتی</div>
-                        <div class="panel-body">
-                            <img id="imgPreviewThumbnail" width="250" height="170" style="margin: 8px auto" class="thumbnail" src="@Model.ThumbnailImagePath" />
-                            <div class="form-group">
-                                <div class="col-md-10">
-                                    <input type="file" accept="image/*" id="imageThumbnail" name="ThumbnailImage" />
-                                </div>
-                            </div>
-                        </div>
+                        <span class="text-danger"> *</span>
                     </div>
+
+                    <div class="image-input image-input-outline w-100" style="background-image: url('@Model.ThumbnailImagePath')">
+                        <div class="image-input-wrapper w-100 h-200px" id="imgPreviewThumbnail" style="background-image: url('@Model.ThumbnailImagePath');background-repeat: round;"></div>
+                        <label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="change" data-toggle="tooltip" title="" data-original-title="تغییر پوستر">
+                            <i class="fa fa-pen icon-sm text-muted"></i>
+                            <input type="file" accept="image/*" id="imageThumbnail" name="ThumbnailImage" />
+                        </label>
+                    </div>
+                    <input type="hidden" id="EndPoster">
+
+                   
 
                 </div>
 
@@ -188,9 +193,10 @@
                 var reader = new FileReader();
 
                 reader.onload = function (e) {
-                    $('#imgPreviewThumbnail').attr('src', e.target.result);
-                }
 
+                    $('#imgPreviewThumbnail').css('background-image', `url('${e.target.result}')`);
+
+                }
                 reader.readAsDataURL(input.files[0]);
             }
         }

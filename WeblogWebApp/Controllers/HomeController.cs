@@ -105,7 +105,8 @@ namespace WeblogWebApp.Controllers
 
             var posts = _db.Posts
                 .Include(p => p.PostCategory)
-                .Where(i => i.Visible && (i.CatId == id || i.PostCategory.ParentCategoryId == id))
+                .ThenInclude(p=>p.SubCategories)
+                .Where(i => i.Visible && (i.CatId == id || i.PostCategory.ParentCategoryId==id))
                 .Include(p => p.PostMedias)
 
                 .ToList().Select(i => new SinglePostInBlogViewModel

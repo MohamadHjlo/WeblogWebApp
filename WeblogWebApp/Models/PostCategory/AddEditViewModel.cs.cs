@@ -23,7 +23,6 @@ namespace WeblogWebApp.Models.PostCategory
 
         [Display(Name = "تصویر بند انگشتی")]
         [Required(ErrorMessage = "وارد کردن {0} الزامیست")]
-
         public IFormFile ThumbnailImage { get; set; }
 
         [Display(Name = "دسته بندی مادر:")]

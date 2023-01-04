@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.IdentityModel.Tokens;
 using WeblogWebApp.Models.Post;
 using WeblogWebApp.ServiceLayer.Interfaces.PostCategory;
 using WeblogWebApp.Utilities.Image;
@@ -77,7 +79,7 @@ namespace WeblogWebApp.Controllers.PostCategory
             const string catThumbPath = "/Media/PostCategory/Thumb/";
             const string catPath = "/Media/PostCategory/";
 
-            if (!Directory.Exists(Path.Combine(Directory.GetCurrentDirectory(),"wwwroot" + catPath)))
+            if (!Directory.Exists(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot" + catPath)))
             {
                 Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot" + catPath));
             }
@@ -119,6 +121,10 @@ namespace WeblogWebApp.Controllers.PostCategory
         {
             #region ValidationInputs
 
+            if (ModelState.Root.GetModelStateForProperty("ThumbnailImage")!.ValidationState == ModelValidationState.Invalid)
+            {
+                ModelState.Root.GetModelStateForProperty("ThumbnailImage")!.ValidationState = ModelValidationState.Valid;
+            }
             if (!ModelState.IsValid)
             {
                 return Json(new
