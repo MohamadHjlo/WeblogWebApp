@@ -51,7 +51,9 @@ namespace WeblogWebApp.Controllers.Post
             var model = new AddEditViewModel()
             {
                 Categories = _categoryService.GetCategoriesForSelectList(),
+                // فعلا استفاده نمیشود
                 Authors = _userService.GetAuthorsForSelectList(),
+
                 Tags = _tagService.GetTagsForSelectList(),
             };
             return View("/Views/Panel/Post/Add.cshtml", model);

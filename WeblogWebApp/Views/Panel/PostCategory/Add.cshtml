@@ -22,7 +22,7 @@
     }
 
     .select2-container--default .select2-selection--single .select2-selection__arrow {
-        height : 38px
+        height: 38px
     }
 
     .select2-container--default .select2-selection--single {
@@ -100,18 +100,24 @@
 
                 </div>
 
-                <div class="col-md-4">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">تصویر بند انگشتی</div>
-                        <div class="panel-body">
-                            <img id="imgPreviewThumbnail" width="250" height="170" style="margin: 8px auto" class="thumbnail" src="/Media/PostCategory/default-image.png" />
-                            <div class="form-group">
-                                <div class="col-md-10">
-                                    <input type="file" accept="image/*" id="imageThumbnail" name="ThumbnailImage" />
-                                </div>
-                            </div>
+                <div class="col-lg-4 col-xl-4 d-flex flex-column mt-3 mt-md-0">
+                    
+                        <div>
+                            <div class="panel-heading">تصویر بند انگشتی</div>
+                            <span class="text-danger"> *</span>
                         </div>
-                    </div>
+
+                        <div class="image-input image-input-outline w-100"  style="background-image: url('/Media/Screen/EndPoster.jpg')">
+                        <div class="image-input-wrapper w-100 h-200px" id="imgPreviewThumbnail" style="background-image: url('/Media/Screen/EndPoster.jpg');background-repeat: round;"></div>
+                            <label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="change" data-toggle="tooltip" title="" data-original-title="تغییر پوستر">
+                                <i class="fa fa-pen icon-sm text-muted"></i>
+                                <input type="file" accept="image/*" id="imageThumbnail" name="ThumbnailImage" />
+                            </label>
+                        </div>
+                        <input type="hidden" id="EndPoster">
+
+                   
+
                 </div>
             </div>
 
@@ -152,22 +158,25 @@
 
     <!-- پیش نمایش تصویر -->
     <script>
-        function readURL(input) {
+        function readURL(input, isCover) {
 
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
 
                 reader.onload = function (e) {
-                    $('#imgPreviewThumbnail').attr('src', e.target.result);
+
+                    $('#imgPreviewThumbnail').css('background-image', `url('${e.target.result}')`);
+
                 }
 
                 reader.readAsDataURL(input.files[0]);
             }
-        }
+        }   
 
         $("#imageThumbnail").change(function () {
             readURL(this);
         });
+
     </script>
 
     <script>
@@ -196,68 +205,68 @@
 
     <!-- ثبت اطلاعات فرم -->
     <script>
-        $('#submit-cat').click(function(e) {
+        $('#submit-cat').click(function (e) {
 
             e.preventDefault();
 
-             const title = $("#catTitle").val();
-             const slug = $("#slug").val();
+            const title = $("#catTitle").val();
+            const slug = $("#slug").val();
 
 
-             const describtion = $("#describtion").val();
+            const describtion = $("#describtion").val();
 
 
 
-             if (isEmptyOrSpaces(title)) {
-                 ErrorHandler("عنوان دسته بندی  باید وارد شود");
-             }
-             if (isEmptyOrSpaces(slug)) {
-                 ErrorHandler("نامک دسته بندی  باید وارد شود");
-             }
-             if (isEmptyOrSpaces(describtion)) {
-                 ErrorHandler("توضیحات دسته بندی  باید وارد شود");
-             }
+            if (isEmptyOrSpaces(title)) {
+                ErrorHandler("عنوان دسته بندی  باید وارد شود");
+            }
+            if (isEmptyOrSpaces(slug)) {
+                ErrorHandler("نامک دسته بندی  باید وارد شود");
+            }
+            if (isEmptyOrSpaces(describtion)) {
+                ErrorHandler("توضیحات دسته بندی  باید وارد شود");
+            }
 
-             if (!isPersianText.test(title) && !isEmptyOrSpaces(title)) {
-                 ErrorHandler("عنوان دسته بندی  باید فارسی باشد");
+            if (!isPersianText.test(title) && !isEmptyOrSpaces(title)) {
+                ErrorHandler("عنوان دسته بندی  باید فارسی باشد");
 
-             }
-             if (!isEnglishText.test(slug) && !isEmptyOrSpaces(slug)) {
-                 ErrorHandler("نامک دسته بندی  باید حروف انگلیسی باشد");
-             }
+            }
+            if (!isEnglishText.test(slug) && !isEmptyOrSpaces(slug)) {
+                ErrorHandler("نامک دسته بندی  باید حروف انگلیسی باشد");
+            }
 
-             if (modals.length > 0) {
-                 swal.queue(modals);
-                 modals = [];
-                 return;
-             }
+            if (modals.length > 0) {
+                swal.queue(modals);
+                modals = [];
+                return;
+            }
 
-             const form = document.getElementById("CategorySubmitForm");
+            const form = document.getElementById("CategorySubmitForm");
 
-             const postData = new FormData(form);
+            const postData = new FormData(form);
 
 
-             $.ajax({
-                 url: $(this).data('url'),
-                 contentType: false,
-                 processData: false,
-                 type: 'POST',
-                 data: postData,
-                 success: function(result) {
+            $.ajax({
+                url: $(this).data('url'),
+                contentType: false,
+                processData: false,
+                type: 'POST',
+                data: postData,
+                success: function (result) {
 
-                     if (result.isSuccess) {
-                         swal.fire('موفق!',
-                             result.message,
-                             'success').then(function(isConfirm) {
-                             window.location.href = '@Url.Action("List", "PostCategory")';
-                         });
-                     } else {
-                         swal.fire('هشدار!',
-                             result.message,
-                             'warning');
-                     }
-                 }
-             });
+                    if (result.isSuccess) {
+                        swal.fire('موفق!',
+                            result.message,
+                            'success').then(function (isConfirm) {
+                                window.location.href = '@Url.Action("List", "PostCategory")';
+                            });
+                    } else {
+                        swal.fire('هشدار!',
+                            result.message,
+                            'warning');
+                    }
+                }
+            });
         });
     </script>
 

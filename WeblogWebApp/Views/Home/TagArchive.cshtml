@@ -34,43 +34,6 @@ string Domain = Context.Request.Scheme + System.Uri.SchemeDelimiter + Context.Re
                                 
                             </div>
                         </div>
-                        <div class="sidebar-widget widget-latest-posts mb-50 wow fadeInUp animated" style="visibility: hidden; animation-name: none;">
-                            <div class="widget-header-1 position-relative mb-30">
-                                <h5 class="mt-5 mb-30">آخرین دیدگاه ها</h5>
-                            </div>
-                            <div class="post-block-list post-module-2">
-                                <ul class="list-post" id="postComments">
-                                    
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="sidebar-widget widget_instagram wow fadeInUp animated" style="visibility: hidden; animation-name: none;">
-                            <div class="widget-header-1 position-relative mb-30">
-                                <h5 class="mt-5 mb-30">اینستاگرام</h5>
-                            </div>
-                            <div class="instagram-gellay">
-                                <ul class="insta-feed">
-                                    <li>
-                                        <a href="assets/imgs/thumbnail-3.jpg" class="play-video" data-animate="zoomIn" data-duration="1.5s" data-delay="0.1s"><img class="border-radius-5" src="assets/imgs/news/thumb-1.jpg" alt=""></a>
-                                    </li>
-                                    <li>
-                                        <a href="assets/imgs/thumbnail-4.jpg" class="play-video" data-animate="zoomIn" data-duration="1.5s" data-delay="0.1s"><img class="border-radius-5" src="assets/imgs/news/thumb-2.jpg" alt=""></a>
-                                    </li>
-                                    <li>
-                                        <a href="assets/imgs/thumbnail-5.jpg" class="play-video" data-animate="zoomIn" data-duration="1.5s" data-delay="0.1s"><img class="border-radius-5" src="assets/imgs/news/thumb-3.jpg" alt=""></a>
-                                    </li>
-                                    <li>
-                                        <a href="assets/imgs/thumbnail-3.jpg" class="play-video" data-animate="zoomIn" data-duration="1.5s" data-delay="0.1s"><img class="border-radius-5" src="assets/imgs/news/thumb-4.jpg" alt=""></a>
-                                    </li>
-                                    <li>
-                                        <a href="assets/imgs/thumbnail-4.jpg" class="play-video" data-animate="zoomIn" data-duration="1.5s" data-delay="0.1s"><img class="border-radius-5" src="assets/imgs/news/thumb-5.jpg" alt=""></a>
-                                    </li>
-                                    <li>
-                                        <a href="assets/imgs/thumbnail-5.jpg" class="play-video" data-animate="zoomIn" data-duration="1.5s" data-delay="0.1s"><img class="border-radius-5" src="assets/imgs/news/thumb-6.jpg" alt=""></a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -81,12 +44,7 @@ string Domain = Context.Request.Scheme + System.Uri.SchemeDelimiter + Context.Re
 
 
 @section scripts{
-    <script src="~/Content/Main/js/blog/vendor/wow.min.js"></script>
-    <script src="~/Content/Main/js/blog/vendor/jquery.scrollUp.min.js"></script>
-    <script src="~/Content/Main/js/blog/vendor/jquery.sticky.js"></script>
-    <script src="~/Content/Main/js/blog/vendor/jquery.theia.sticky.js"></script>
-    <script src="~/Content/Main/js/blog/main.js"></script>
-
+  
     <script>
 
         $(document).on("click", ".pagination-area .page-item", function (e) {
@@ -96,7 +54,7 @@ string Domain = Context.Request.Scheme + System.Uri.SchemeDelimiter + Context.Re
             $.ajax({
                 method: "post",
                 data: { currentPage: currentPage },
-                url: "/blog/GetLatestPostsForPartialView",
+                url: "/Home/GetLatestPostsForPartialView",
                 success: function (data) {
                     $("#latestNews").empty();
                     $("#latestNews").html(data);
@@ -110,7 +68,7 @@ string Domain = Context.Request.Scheme + System.Uri.SchemeDelimiter + Context.Re
 
         $.ajax({
             method: "post",
-            url: "/blog/TagArchive",
+            url: "/Home/TagArchive",
             data: { id: @ViewBag.Id},
             success: function (data) {
                 $("#archivePosts").empty();
@@ -125,7 +83,7 @@ string Domain = Context.Request.Scheme + System.Uri.SchemeDelimiter + Context.Re
         $(document).ready(function () {
             $.ajax({
                 method: "post",
-                url: "/blog/GetMostViewsPost",
+                url: "/Home/GetMostViewsPost",
                 success: function (data) {
                     $("#mostViewsNews").empty();
                     $("#mostViewsNews").html(data);
@@ -137,7 +95,7 @@ string Domain = Context.Request.Scheme + System.Uri.SchemeDelimiter + Context.Re
 
             $.ajax({
                 method: "post",
-                url: "/blog/GetLatestPostCommentsForPartialView",
+                url: "/Home/GetLatestPostCommentsForPartialView",
                 success: function (data) {
                     $("#postComments").empty();
                     $("#postComments").html(data);
@@ -156,7 +114,7 @@ string Domain = Context.Request.Scheme + System.Uri.SchemeDelimiter + Context.Re
             $.ajax({
                 method: "post",
                 data: {id: @ViewBag.Id, currentPage: currentPage },
-                url: "/blog/CategoryArchive",
+                url: "/Home/CategoryArchive",
                 success: function (data) {
                     $("#archivePosts").empty();
                     $("#archivePosts").html(data);

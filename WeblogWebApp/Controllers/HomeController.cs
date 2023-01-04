@@ -104,9 +104,10 @@ namespace WeblogWebApp.Controllers
             PaginationHelper.Pager page = new PaginationHelper.Pager(totalNews, currentPage, 8, 5);
 
             var posts = _db.Posts
-                .Where(i => i.Visible && i.CatId == id)
-                .Include(p => p.PostMedias)
                 .Include(p => p.PostCategory)
+                .Where(i => i.Visible && (i.CatId == id || i.PostCategory.ParentCategoryId == id))
+                .Include(p => p.PostMedias)
+
                 .ToList().Select(i => new SinglePostInBlogViewModel
                 {
                     Id = i.Id,
@@ -129,7 +130,7 @@ namespace WeblogWebApp.Controllers
             model.Posts = posts;
             model.Pagination = page;
 
-            return PartialView("_CategoryArchive",model);
+            return PartialView("_CategoryArchive", model);
 
         }
 
@@ -172,7 +173,7 @@ namespace WeblogWebApp.Controllers
                     .Where(i => i.Visible && postTags.Contains(i.Id))
                     .Include(p => p.PostMedias)
                     .Include(p => p.PostCategory)
-                    .Select(i => new SinglePostInBlogViewModel
+                    .ToList().Select(i => new SinglePostInBlogViewModel
                     {
                         Id = i.Id,
                         Slug = i.Slug,
@@ -196,7 +197,7 @@ namespace WeblogWebApp.Controllers
 
             }
 
-            return PartialView("_TagArchive",model);
+            return PartialView("_TagArchive", model);
 
 
         }
